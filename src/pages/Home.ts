@@ -1,8 +1,18 @@
+import { PATH } from '../libs/constants'
+import changeUrl from '../libs/router'
+
 export default function Home(): HTMLElement {
   const container = document.createElement('div')
   container.innerHTML = `
-    <h1>Welcome to Home</h1>
-    <p>This is the home page.</p>
+    <main>
+      <h1>퀴즈</h1>
+      <p>description</p>
+      <button>시작하기</button>
+    </main>
   `
+
+  const startButton = container.querySelector('button')
+  startButton?.addEventListener('click', () => changeUrl(PATH.QUIZ))
+
   return container
 }
