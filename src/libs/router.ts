@@ -18,10 +18,10 @@ export default function changeUrl(requestedUrl: string, state?: object): void {
     return
   }
 
+  history.pushState(state ?? null, '', requestedUrl)
+
   const pageElement = match.page()
   $app.appendChild(pageElement)
-
-  history.pushState(state?? null, '', requestedUrl)
 
   const cssPath = `/src/styles/${match.style}.css`
   const styleElement = document.getElementById('styles') as HTMLLinkElement | null
