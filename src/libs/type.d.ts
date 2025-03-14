@@ -18,5 +18,5 @@ interface QuizItem {
   type: QUIZ_TYPE
   question: string
   options: string[]
-  answer: number[]
+  answer: boolean[]
 }
