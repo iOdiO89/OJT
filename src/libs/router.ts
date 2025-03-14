@@ -3,7 +3,7 @@ import { routes } from './routes.ts'
 
 function checkUrl(requestedUrl: string): Route | false {
   const [pathname] = requestedUrl.split('?')
-  return routes.find((route) => route.path === pathname)?? false
+  return routes.find((route) => route.path === pathname) ?? false
 }
 
 export default function changeUrl(requestedUrl: string, state?: object): void {
@@ -28,11 +28,6 @@ export default function changeUrl(requestedUrl: string, state?: object): void {
   if (styleElement) styleElement.setAttribute('href', cssPath)
 }
 
-window.addEventListener('popstate', () => 
-  changeUrl(window.location.pathname + window.location.search)
-)
+window.addEventListener('popstate', () => changeUrl(window.location.pathname + window.location.search))
 
-
-window.addEventListener('DOMContentLoaded', () => 
-  changeUrl(window.location.pathname + window.location.search)
-)
+window.addEventListener('DOMContentLoaded', () => changeUrl(window.location.pathname + window.location.search))
