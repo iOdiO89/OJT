@@ -4,15 +4,15 @@ import { COLOR } from '../../libs/constants'
 import { getObjectSize } from '../../utils/getObjectSize'
 
 export const renderOptions = (
+  canvas: Canvas,
   options: string[],
   type: QUIZ_TYPE,
   startPos: number,
-  canvas: Canvas
+  buttonWidth: number = 250,
+  colGap: number = 20,
+  columns: number = 3
 ): [IText[], Rect[], Group[]] => {
-  const buttonWidth = 250 // button width
-  const rowGap = 20 // row gap
-  const colGap = 20 // col gap
-  const columns = 3 // grid col num
+  const rowGap = 20
 
   let selectedSingleOption: Group | null = null
 
@@ -59,7 +59,7 @@ export const renderOptions = (
     const colIndex = index % columns
     const rowIndex = Math.floor(index / columns)
     const leftPos = colIndex * (buttonWidth + rowGap)
-    const topPos = startPos + 24 + rowIndex * (optionRectHeight + colGap)
+    const topPos = startPos + rowIndex * (optionRectHeight + colGap)
 
     optionGroup.set({
       left: leftPos,

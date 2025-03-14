@@ -12,10 +12,10 @@ export const quizData: QuizItem[] = [
     answer: [false, false, true, false, false, false],
   },
   {
-    type: 'SINGLE',
-    question: '강아지는 어떤 소리를 낼까요?',
-    options: ['야옹', '멍멍', '꽥꽥', '음메', '찍찍', '꼬끼오'],
-    answer: [false, true, false, false, false, false],
+    type: 'MATH',
+    question: '2+3',
+    options: ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'],
+    answer: [false, false, false, false, false, true, false, false, false, false],
   },
   {
     type: 'MULTI',

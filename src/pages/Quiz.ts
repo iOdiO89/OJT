@@ -3,6 +3,7 @@ import { quizData } from '../libs/dummy'
 import { renderTitle } from '../components/quiz/title'
 import { renderOptions } from '../components/quiz/options'
 import { renderAnswerButton } from '../components/quiz/answerButton'
+import { getOptionStyle } from '../utils/getOptionStyle'
 
 export default function Quiz(): HTMLElement {
   const queryString = window.location.search
@@ -22,13 +23,22 @@ export default function Quiz(): HTMLElement {
     width: 800,
     height: 500,
   })
-  const questionText = renderTitle(`${quizNum}. ${quizData[quizIndex].question}`, canvas)
+  const questionText = renderTitle(canvas, `${quizNum}. ${quizData[quizIndex].question}`)
   const titleEndPos = questionText.height
 
-  const [_, __, optionGroupList] = renderOptions(quizData[quizIndex].options, quizType, titleEndPos, canvas)
+  const optionStyle = getOptionStyle(quizType)
+  const [_, __, optionGroupList] = renderOptions(
+    canvas,
+    quizData[quizIndex].options,
+    quizType,
+    titleEndPos + 24,
+    optionStyle?.buttonWidth,
+    optionStyle?.colGap,
+    optionStyle?.column
+  )
   const optionEndPos = optionGroupList[optionGroupList.length - 1].top + optionGroupList[0].height
 
-  renderAnswerButton(optionEndPos + 40, optionGroupList, quizData[quizIndex].answer, quizNum, canvas)
+  renderAnswerButton(canvas, optionEndPos + 40, optionGroupList, quizData[quizIndex].answer, quizNum)
 
   return container
 }

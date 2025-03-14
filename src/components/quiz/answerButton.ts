@@ -5,11 +5,11 @@ import changeUrl from '../../utils/router'
 import { createDefaultButton } from '../../utils/createButton'
 
 export function renderAnswerButton(
+  canvas: Canvas,
   startPos: number,
   optionGroup: Group[],
   answer: boolean[],
-  quizNum: number,
-  canvas: Canvas
+  quizNum: number
 ): [IText, Rect, Group] {
   const [answerText, answerRect, answerGroup] = createDefaultButton('정답 확인', 200)
   answerText.set({
@@ -33,6 +33,7 @@ export function renderAnswerButton(
     option.on('mousedown', () => {
       if (selectedOptionGroup.has(index)) selectedOptionGroup.delete(index)
       else selectedOptionGroup.add(index)
+      canvas.renderAll()
     })
   )
 
