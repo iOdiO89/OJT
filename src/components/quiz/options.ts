@@ -72,8 +72,9 @@ export const renderOptions = (
           stroke: COLOR.GREEN,
           fill: hexToRGB(COLOR.GREEN, 0.01),
         })
-        canvas.renderAll()
       }
+      optionGroup.set({ hoverCursor: 'pointer' })
+      canvas.renderAll()
     })
 
     optionGroup.on('mouseout', () => {

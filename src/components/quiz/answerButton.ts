@@ -36,6 +36,11 @@ export function renderAnswerButton(
     })
   )
 
+  answerGroup.on('mouseover', () => {
+    answerGroup.set({ hoverCursor: 'pointer' })
+    canvas.renderAll()
+  })
+
   answerGroup.on('mousedown', () => {
     if (answerText.text === '정답 확인') {
       optionGroup.forEach((option, index) => {
