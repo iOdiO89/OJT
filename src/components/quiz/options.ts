@@ -26,6 +26,7 @@ export const renderOptions = (
       originX: 'center',
       originY: 'center',
       selectable: false,
+      fontFamily: 'NanumSquareRound',
     })
 
     const [__, optionTextHeight] = getObjectSize(optionText)

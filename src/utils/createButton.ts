@@ -10,6 +10,7 @@ export const createDefaultButton = (textValue: string, width?: number): [IText, 
     originX: 'center',
     originY: 'center',
     selectable: false,
+    fontFamily: 'NanumSquareRound',
   })
   const [textWidth, textHeight] = getObjectSize(text)
   const rect = new Rect({
