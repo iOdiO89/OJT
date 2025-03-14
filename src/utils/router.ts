@@ -1,5 +1,5 @@
-import { PATH } from './constants.ts'
-import { routes } from './routes.ts'
+import { PATH } from '../libs/constants.ts'
+import { routes } from '../libs/routes.ts'
 
 function checkUrl(requestedUrl: string): Route | false {
   const [pathname] = requestedUrl.split('?')

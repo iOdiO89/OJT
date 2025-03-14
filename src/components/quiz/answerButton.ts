@@ -1,8 +1,8 @@
-import { Canvas, Group, Rect } from 'fabric'
-import { createDefaultButton } from '../libs/createElement'
-import { COLOR, PATH } from '../libs/constants'
-import { hexToRGB } from '../libs/hexToRGB'
-import changeUrl from '../libs/router'
+import { Canvas, Group } from 'fabric'
+import { hexToRGB } from '../../utils/hexToRGB'
+import { COLOR, PATH, QUIZ_COUNT } from '../../libs/constants'
+import changeUrl from '../../utils/router'
+import { createDefaultButton } from '../../utils/createButton'
 
 export function renderAnswerButton(
   canvas: Canvas,
@@ -28,7 +28,6 @@ export function renderAnswerButton(
     evented: true,
   })
 
-  /* '정답 확인' 버튼 클릭 함수 - 정답 판별 + buttonText: '다음 문제로' 로 변경 */
   const selectedOptionGroup = new Set()
   optionGroup.forEach((option, index) =>
     option.on('mousedown', () => {
@@ -62,9 +61,12 @@ export function renderAnswerButton(
       })
 
       answerText.set({
-        text: '다음 문제로',
+        text: quizNum !== QUIZ_COUNT ? '다음 문제로' : '레포트 확인하기',
       })
-    } else changeUrl(`${PATH.QUIZ}?no=${quizNum + 1}`)
+    } else {
+      if (quizNum !== QUIZ_COUNT) changeUrl(`${PATH.QUIZ}?no=${quizNum + 1}`)
+      else changeUrl(PATH.REPORT)
+    }
 
     canvas.renderAll()
   })

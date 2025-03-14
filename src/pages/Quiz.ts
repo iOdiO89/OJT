@@ -1,8 +1,8 @@
-import { Canvas, IText } from 'fabric'
+import { Canvas } from 'fabric'
 import { quizData } from '../libs/dummy'
-import { createDefaultButton, createOptionButtons, getObjectSize } from '../libs/createElement'
-import { renderAnswerButton } from '../components/answerButton'
 import { renderTitle } from '../components/quiz/title'
+import { renderOptions } from '../components/quiz/options'
+import { renderAnswerButton } from '../components/quiz/answerButton'
 
 export default function Quiz(): HTMLElement {
   const queryString = window.location.search
@@ -23,12 +23,6 @@ export default function Quiz(): HTMLElement {
     width: 800,
     height: 500,
   })
-  const questionText = new IText(quizData[quizIndex].question, {
-    fontSize: 24,
-    selectable: false,
-  })
-  const [_, questionHeight] = getObjectSize(questionText)
-  canvas.add(questionText)
   const questionText = renderTitle(quizData[quizIndex].question, canvas)
   const titleEndPos = questionText.height
 

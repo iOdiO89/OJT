@@ -1,5 +1,5 @@
 import { PATH } from '../libs/constants'
-import changeUrl from '../libs/router'
+import changeUrl from '../utils/router'
 
 export default function Home(): HTMLElement {
   const container = document.createElement('div')
