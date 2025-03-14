@@ -1,16 +1,16 @@
-import { Canvas, Group } from 'fabric'
+import { Canvas, Group, IText, Rect } from 'fabric'
 import { hexToRGB } from '../../utils/hexToRGB'
 import { COLOR, PATH, QUIZ_COUNT } from '../../libs/constants'
 import changeUrl from '../../utils/router'
 import { createDefaultButton } from '../../utils/createButton'
 
 export function renderAnswerButton(
-  canvas: Canvas,
   startPos: number,
   optionGroup: Group[],
   answer: boolean[],
-  quizNum: number
-) {
+  quizNum: number,
+  canvas: Canvas
+): [IText, Rect, Group] {
   const [answerText, answerRect, answerGroup] = createDefaultButton('정답 확인', 200)
   answerText.set({
     fill: 'white',
@@ -72,4 +72,6 @@ export function renderAnswerButton(
   })
 
   canvas.add(answerGroup)
+
+  return [answerText, answerRect, answerGroup]
 }

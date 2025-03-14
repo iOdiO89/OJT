@@ -6,8 +6,8 @@ import { getObjectSize } from '../../utils/getObjectSize'
 export const renderOptions = (
   options: string[],
   type: QUIZ_TYPE,
-  canvas: Canvas,
-  startPos: number
+  startPos: number,
+  canvas: Canvas
 ): [IText[], Rect[], Group[]] => {
   const buttonWidth = 250 // button width
   const rowGap = 20 // row gap

@@ -10,7 +10,6 @@ export default function Quiz(): HTMLElement {
   const quizNum = Number(urlParams.get('no'))
   const quizIndex = quizNum - 1
   const quizType = quizData[quizIndex].type
-  console.log({ quizType })
 
   const container = document.createElement('main')
   container.innerHTML = `
@@ -23,13 +22,13 @@ export default function Quiz(): HTMLElement {
     width: 800,
     height: 500,
   })
-  const questionText = renderTitle(quizData[quizIndex].question, canvas)
+  const questionText = renderTitle(`${quizNum}. ${quizData[quizIndex].question}`, canvas)
   const titleEndPos = questionText.height
 
-  const [__, ___, optionGroupList] = renderOptions(quizData[quizIndex].options, quizType, canvas, titleEndPos)
+  const [_, __, optionGroupList] = renderOptions(quizData[quizIndex].options, quizType, titleEndPos, canvas)
   const optionEndPos = optionGroupList[optionGroupList.length - 1].top + optionGroupList[0].height
 
-  renderAnswerButton(canvas, optionEndPos + 40, optionGroupList, quizData[quizIndex].answer, quizNum)
+  renderAnswerButton(optionEndPos + 40, optionGroupList, quizData[quizIndex].answer, quizNum, canvas)
 
   return container
 }
