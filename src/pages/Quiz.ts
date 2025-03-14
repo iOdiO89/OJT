@@ -2,6 +2,7 @@ import { Canvas, IText } from 'fabric'
 import { quizData } from '../libs/dummy'
 import { createDefaultButton, createOptionButtons, getObjectSize } from '../libs/createElement'
 import { renderAnswerButton } from '../components/answerButton'
+import { renderTitle } from '../components/quiz/title'
 
 export default function Quiz(): HTMLElement {
   const queryString = window.location.search
@@ -28,14 +29,12 @@ export default function Quiz(): HTMLElement {
   })
   const [_, questionHeight] = getObjectSize(questionText)
   canvas.add(questionText)
+  const questionText = renderTitle(quizData[quizIndex].question, canvas)
+  const titleEndPos = questionText.height
 
-  const [__, optionRectList, optionGroupList] = createOptionButtons(
-    quizData[quizIndex].options,
-    quizType,
-    canvas,
-    questionHeight
-  )
+  const [__, ___, optionGroupList] = renderOptions(quizData[quizIndex].options, quizType, canvas, titleEndPos)
   const optionEndPos = optionGroupList[optionGroupList.length - 1].top + optionGroupList[0].height
+
   renderAnswerButton(canvas, optionEndPos + 40, optionGroupList, quizData[quizIndex].answer, quizNum)
 
   return container
