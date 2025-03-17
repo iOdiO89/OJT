@@ -3,6 +3,7 @@ import { hexToRGB } from '../../utils/hexToRGB'
 import { COLOR, PATH, QUIZ_COUNT } from '../../libs/constants'
 import changeUrl from '../../utils/router'
 import { createDefaultButton } from '../../utils/createButton'
+import { showToast } from '../../utils/showToast'
 
 export function renderAnswerButton(
   canvas: Canvas,
@@ -30,7 +31,7 @@ export function renderAnswerButton(
   })
   const answerEndPos = answerGroup.top + answerGroup.height
 
-  const [toastText, toastRect, toastGroup] = createDefaultButton('선택된 답이 없습니다. 답을 선택해주세요!')
+  const [toastText, toastRect, toastGroup] = createDefaultButton('')
   toastText.set({
     fill: COLOR.PURPLE,
     fontSize: 20,
@@ -72,41 +73,13 @@ export function renderAnswerButton(
     canvas.renderAll()
   })
 
+  let isAllCorrect = true
+  let hasWrong = false
+  let hasPartialCorrect = false
   answerGroup.on('mousedown', () => {
     if (answerText.text === '정답 확인') {
       if (selectedOptionGroup.size === 0) {
-        toastGroup.set({ opacity: 0, visible: true })
-        canvas.renderAll()
-
-        util.animate({
-          startValue: 0,
-          endValue: 1,
-          duration: 300,
-          easing: util.ease.easeInOutQuad,
-          onChange: (opacity) => {
-            toastGroup.set({ opacity })
-            canvas.renderAll()
-          },
-          onComplete: () => {
-            setTimeout(() => {
-              util.animate({
-                startValue: 1,
-                endValue: 0,
-                duration: 300,
-                easing: util.ease.easeInOutQuad,
-                onChange: (opacity) => {
-                  toastGroup.set({ opacity })
-                  canvas.renderAll()
-                },
-                onComplete: () => {
-                  toastGroup.set({ visible: false })
-                  canvas.renderAll()
-                },
-              })
-            }, 1000)
-          },
-        })
-
+        showToast(toastGroup, canvas, '선택된 답이 없습니다. 답을 선택해주세요!')
         return
       }
 
@@ -119,6 +92,7 @@ export function renderAnswerButton(
             stroke: COLOR.RED,
             fill: hexToRGB(COLOR.RED, 0.01),
           })
+          hasWrong = true
         } else if (isCorrect && !selectedOptionGroup.has(index)) {
           // 정답을 선택하지 않은 경우
           option.item(0).set({
@@ -126,11 +100,17 @@ export function renderAnswerButton(
             strokeDashArray: [10, 5],
             fill: hexToRGB(COLOR.GREEN, 0.01),
           })
-        }
+          isAllCorrect = false
+        } else if (isCorrect && selectedOptionGroup.has(index)) hasPartialCorrect = true // 정답을 선택한 경우
+
         option.off('mousedown')
         option.off('mouseover')
         option.off('mouseout')
       })
+
+      if (hasWrong) showToast(toastGroup, canvas, '이번엔 틀렸어요! 다음엔 조금 더 생각해봐요.')
+      else if (isAllCorrect) showToast(toastGroup, canvas, '정답이에요! 계속해서 멋진 실력을 보여주세요!')
+      else if (hasPartialCorrect) showToast(toastGroup, canvas, '거의 다 맞았어요! 다음엔 조금 더 노력해봐요.')
 
       answerText.set({
         text: quizNum !== QUIZ_COUNT ? '다음 문제로' : '레포트 확인하기',
