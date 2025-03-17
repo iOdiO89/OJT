@@ -1,4 +1,4 @@
-import { Canvas, Group, IText, Rect } from 'fabric'
+import { Canvas, Group, IText, Rect, util } from 'fabric'
 import { hexToRGB } from '../../utils/hexToRGB'
 import { COLOR, PATH, QUIZ_COUNT } from '../../libs/constants'
 import changeUrl from '../../utils/router'
@@ -28,6 +28,20 @@ export function renderAnswerButton(
     left: 400,
     evented: true,
   })
+  const answerEndPos = answerGroup.top + answerGroup.height
+
+  const [toastText, toastRect, toastGroup] = createDefaultButton('선택된 답이 없습니다. 답을 선택해주세요!')
+  toastText.set({
+    fill: COLOR.PURPLE,
+    fontSize: 20,
+  })
+  toastRect.set({
+    fill: 'white',
+    stroke: COLOR.PURPLE,
+    rx: 24,
+    ry: 24,
+  })
+  toastGroup.set({ originX: 'center', top: answerEndPos + 20, left: 400, opacity: 0, visibility: false })
 
   const selectedOptionGroup = new Set()
   optionGroup.forEach((option, index) =>
@@ -60,6 +74,42 @@ export function renderAnswerButton(
 
   answerGroup.on('mousedown', () => {
     if (answerText.text === '정답 확인') {
+      if (selectedOptionGroup.size === 0) {
+        toastGroup.set({ opacity: 0, visible: true })
+        canvas.renderAll()
+
+        util.animate({
+          startValue: 0,
+          endValue: 1,
+          duration: 300,
+          easing: util.ease.easeInOutQuad,
+          onChange: (opacity) => {
+            toastGroup.set({ opacity })
+            canvas.renderAll()
+          },
+          onComplete: () => {
+            setTimeout(() => {
+              util.animate({
+                startValue: 1,
+                endValue: 0,
+                duration: 300,
+                easing: util.ease.easeInOutQuad,
+                onChange: (opacity) => {
+                  toastGroup.set({ opacity })
+                  canvas.renderAll()
+                },
+                onComplete: () => {
+                  toastGroup.set({ visible: false })
+                  canvas.renderAll()
+                },
+              })
+            }, 1000)
+          },
+        })
+
+        return
+      }
+
       optionGroup.forEach((option, index) => {
         const isCorrect = answer[index]
 
@@ -94,6 +144,7 @@ export function renderAnswerButton(
   })
 
   canvas.add(answerGroup)
+  canvas.add(toastGroup)
 
   return [answerText, answerRect, answerGroup]
 }
