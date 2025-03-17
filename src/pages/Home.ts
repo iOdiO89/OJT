@@ -12,7 +12,7 @@ export default function Home(): HTMLElement {
   `
 
   const startButton = container.querySelector('button')
-  startButton?.addEventListener('click', () => changeUrl(PATH.QUIZ))
+  startButton?.addEventListener('click', () => changeUrl(`${PATH.QUIZ}?no=1`))
 
   return container
 }
