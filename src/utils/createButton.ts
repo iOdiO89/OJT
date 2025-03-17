@@ -27,7 +27,6 @@ export const createDefaultButton = (textValue: string, width?: number): [IText, 
       color: hexToRGB(COLOR.SHADOW, 0.03),
     }),
   })
-  const [_, rectHeight] = getObjectSize(rect)
 
   const group = new Group([rect, text], {
     originX: 'center',

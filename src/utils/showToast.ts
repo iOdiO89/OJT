@@ -1,5 +1,6 @@
 import { Canvas, Group, util } from 'fabric'
 import { getObjectSize } from './getObjectSize'
+import { CANVAS } from '../libs/constants'
 
 export const showToast = (object: Group, canvas: Canvas, text: string) => {
   const objectText = object.item(1)
@@ -10,7 +11,7 @@ export const showToast = (object: Group, canvas: Canvas, text: string) => {
     width: textWidth + 24,
   })
   object.set({
-    left: 400,
+    left: CANVAS.WIDTH / 2,
   })
 
   object.set({ opacity: 0, visible: true })

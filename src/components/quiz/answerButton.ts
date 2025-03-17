@@ -1,6 +1,6 @@
-import { Canvas, Group, IText, Rect, util } from 'fabric'
+import { Canvas, Group, IText, Rect } from 'fabric'
 import { hexToRGB } from '../../utils/hexToRGB'
-import { COLOR, PATH, QUIZ_COUNT } from '../../libs/constants'
+import { CANVAS, COLOR, PATH, QUIZ_COUNT } from '../../libs/constants'
 import changeUrl from '../../utils/router'
 import { createDefaultButton } from '../../utils/createButton'
 import { showToast } from '../../utils/showToast'
@@ -26,7 +26,7 @@ export function renderAnswerButton(
   answerGroup.set({
     originX: 'center',
     top: startPos + 40,
-    left: 400,
+    left: CANVAS.WIDTH / 2,
     evented: true,
   })
   const answerEndPos = answerGroup.top + answerGroup.height

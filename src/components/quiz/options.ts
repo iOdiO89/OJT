@@ -1,6 +1,6 @@
 import { Canvas, Group, IText, Rect, Shadow } from 'fabric'
 import { hexToRGB } from '../../utils/hexToRGB'
-import { COLOR } from '../../libs/constants'
+import { CANVAS, COLOR, SIZE } from '../../libs/constants'
 import { getObjectSize } from '../../utils/getObjectSize'
 
 export const renderOptions = (
@@ -8,11 +8,12 @@ export const renderOptions = (
   options: string[],
   type: QUIZ_TYPE,
   startPos: number,
-  buttonWidth: number = 250,
-  colGap: number = 20,
+  buttonWidth: number = SIZE.BUTTON_WIDTH,
+  colGap: number = SIZE.GAP_SM,
   columns: number = 3
 ): [IText[], Rect[], Group[]] => {
-  const rowGap = 20
+  const totalWidth = columns * buttonWidth + (columns - 1) * colGap
+  const startX = (CANVAS.WIDTH - totalWidth) / 2
 
   let selectedSingleOption: Group | null = null
 
@@ -59,8 +60,8 @@ export const renderOptions = (
 
     const colIndex = index % columns
     const rowIndex = Math.floor(index / columns)
-    const leftPos = colIndex * (buttonWidth + rowGap)
-    const topPos = startPos + rowIndex * (optionRectHeight + colGap)
+    const leftPos = startX + colIndex * (buttonWidth + colGap)
+    const topPos = startPos + rowIndex * (optionRectHeight + (type === 'DRAG' ? SIZE.GAP_XS : colGap))
 
     optionGroup.set({
       left: leftPos,

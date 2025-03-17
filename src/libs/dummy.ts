@@ -36,9 +36,10 @@ export const quizData: QuizItem[] = [
     answer: [true, false, true, false, true, false],
   },
   {
-    type: 'SINGLE',
-    question: '자동차는 어디에서 달릴까요?',
-    options: ['강', '바다', '하늘', '도로', '숲', '집'],
+    type: 'DRAG',
+    question: '그림을 보고, 빈칸에 알맞은 말을 옮겨 보세요.',
+    images: ['/images/eraser.png', '/images/scissor.png', '/images/pencil.png'],
+    options: ['연필', '풀', '가위', '지우개', '형광펜', '노트'],
     answer: [false, false, false, true, false, false],
   },
   {

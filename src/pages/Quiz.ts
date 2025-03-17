@@ -4,6 +4,8 @@ import { renderTitle } from '../components/quiz/title'
 import { renderOptions } from '../components/quiz/options'
 import { renderAnswerButton } from '../components/quiz/answerButton'
 import { getOptionStyle } from '../utils/getOptionStyle'
+import { CANVAS } from '../libs/constants'
+import { renderImageOptions } from '../components/quiz/imageOptions'
 
 export default function Quiz(): HTMLElement {
   const queryString = window.location.search
@@ -20,25 +22,27 @@ export default function Quiz(): HTMLElement {
   const canvas = new Canvas(canvasEl as HTMLCanvasElement, {
     defaultCursor: 'default',
     hoverCursor: 'default',
-    width: 800,
-    height: 500,
+    width: CANVAS.WIDTH,
+    height: CANVAS.HEIGHT,
   })
   const questionText = renderTitle(canvas, `${quizNum}. ${quizData[quizIndex].question}`)
-  const titleEndPos = questionText.height
+  const questionEndPos = questionText.top + questionText.height
+
+  if (quizData[quizIndex].images) renderImageOptions(canvas, quizData[quizIndex].images, questionEndPos + 24)
 
   const optionStyle = getOptionStyle(quizType)
   const [_, __, optionGroupList] = renderOptions(
     canvas,
     quizData[quizIndex].options,
     quizType,
-    titleEndPos + 24,
+    quizData[quizIndex].images ? questionEndPos + 300 + 72 : questionEndPos + 24,
     optionStyle?.buttonWidth,
     optionStyle?.colGap,
     optionStyle?.column
   )
   const optionEndPos = optionGroupList[optionGroupList.length - 1].top + optionGroupList[0].height
 
-  renderAnswerButton(canvas, optionEndPos + 40, optionGroupList, quizData[quizIndex].answer, quizNum, quizType)
+  renderAnswerButton(canvas, optionEndPos + 16, optionGroupList, quizData[quizIndex].answer, quizNum, quizType)
 
   return container
 }
