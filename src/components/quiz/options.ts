@@ -91,7 +91,7 @@ export const renderOptions = (
     let isSelected = false
     optionGroup.on('mousedown', () => {
       if (type === 'MULTI') isSelected = !isSelected
-      else if (type === 'SINGLE') {
+      else if (type === 'SINGLE' || type === 'MATH') {
         if (selectedSingleOption && selectedSingleOption !== optionGroup) {
           const prevRect = selectedSingleOption.item(0) as Rect
           prevRect.set({
