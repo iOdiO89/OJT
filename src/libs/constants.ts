@@ -12,5 +12,6 @@ export const COLOR = {
   GREEN: '#00C247',
   RED: '#ef4444',
   PURPLE: '#8347FF',
+  LIGHT_PURPLE: '#C1A3FF',
   SHADOW: '#181818',
 }

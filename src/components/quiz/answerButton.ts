@@ -17,7 +17,7 @@ export function renderAnswerButton(
     fontSize: 20,
   })
   answerRect.set({
-    fill: '#8347FF',
+    fill: COLOR.PURPLE,
     rx: 24,
     ry: 24,
   })
@@ -39,6 +39,16 @@ export function renderAnswerButton(
 
   answerGroup.on('mouseover', () => {
     answerGroup.set({ hoverCursor: 'pointer' })
+    answerRect.set({
+      fill: COLOR.LIGHT_PURPLE,
+    })
+    canvas.renderAll()
+  })
+
+  answerGroup.on('mouseout', () => {
+    answerRect.set({
+      fill: COLOR.PURPLE,
+    })
     canvas.renderAll()
   })
 
