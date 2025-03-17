@@ -19,6 +19,8 @@ export const createDefaultButton = (textValue: string, width?: number): [IText, 
     rx: 8,
     ry: 8,
     fill: 'white',
+    originX: 'center',
+    originY: 'center',
     shadow: new Shadow({
       blur: 12,
       offsetY: 6,
@@ -27,12 +29,9 @@ export const createDefaultButton = (textValue: string, width?: number): [IText, 
   })
   const [_, rectHeight] = getObjectSize(rect)
 
-  text.set({
-    left: (width ?? textWidth + 24) / 2,
-    top: rectHeight / 2,
-  })
-
   const group = new Group([rect, text], {
+    originX: 'center',
+    originY: 'center',
     selectable: false,
     hasControls: false,
   })
