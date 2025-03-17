@@ -38,7 +38,7 @@ export default function Quiz(): HTMLElement {
   )
   const optionEndPos = optionGroupList[optionGroupList.length - 1].top + optionGroupList[0].height
 
-  renderAnswerButton(canvas, optionEndPos + 40, optionGroupList, quizData[quizIndex].answer, quizNum)
+  renderAnswerButton(canvas, optionEndPos + 40, optionGroupList, quizData[quizIndex].answer, quizNum, quizType)
 
   return container
 }

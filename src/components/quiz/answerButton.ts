@@ -9,7 +9,8 @@ export function renderAnswerButton(
   startPos: number,
   optionGroup: Group[],
   answer: boolean[],
-  quizNum: number
+  quizNum: number,
+  quizType: QUIZ_TYPE
 ): [IText, Rect, Group] {
   const [answerText, answerRect, answerGroup] = createDefaultButton('정답 확인', 200)
   answerText.set({
@@ -31,8 +32,13 @@ export function renderAnswerButton(
   const selectedOptionGroup = new Set()
   optionGroup.forEach((option, index) =>
     option.on('mousedown', () => {
-      if (selectedOptionGroup.has(index)) selectedOptionGroup.delete(index)
-      else selectedOptionGroup.add(index)
+      if (quizType === 'SINGLE' || quizType === 'MATH') {
+        selectedOptionGroup.clear()
+        selectedOptionGroup.add(index)
+      } else if (quizType === 'MULTI') {
+        if (selectedOptionGroup.has(index)) selectedOptionGroup.delete(index)
+        else selectedOptionGroup.add(index)
+      }
       canvas.renderAll()
     })
   )
