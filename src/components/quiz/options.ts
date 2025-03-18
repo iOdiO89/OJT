@@ -2,6 +2,7 @@ import { Canvas, Group, IText, Rect } from 'fabric'
 import { hexToRGB } from '../../utils/hexToRGB'
 import { CANVAS, COLOR, SIZE } from '../../libs/constants'
 import { getObjectSize } from '../../utils/getObjectSize'
+import { moveSmooth } from '../../utils/moveSmooth'
 import { createDefaultButton } from '../../utils/createButton'
 import { getIntersectionRect } from '../../utils/getIntersectionArea'
 
@@ -63,8 +64,8 @@ export const renderOptions = (
       })
 
       let prevIntersectInput: Group | undefined
+      let maxIntersectInput: Group | undefined
       optionGroup.on('moving', () => {
-        let maxIntersectInput: Group | undefined
         let maxIntersectSpace = 0
         for (const input of inputOptions) {
           const intersectSpace = getIntersectionRect(optionGroup, input)
@@ -74,20 +75,38 @@ export const renderOptions = (
           }
         }
 
-        if (prevIntersectInput && prevIntersectInput != maxIntersectInput)
+        const prevIntersectInputText = prevIntersectInput?.item(1) as IText
+        if (prevIntersectInput && prevIntersectInput != maxIntersectInput && prevIntersectInputText.text !== '?')
           prevIntersectInput.item(0).set({
             fill: COLOR.SUPER_LIGHT_GRAY,
           })
 
         if (maxIntersectInput) {
+          const maxIntersectInputText = maxIntersectInput.item(1) as IText
           if (maxIntersectSpace > 0) maxIntersectInput.item(0).set({ fill: hexToRGB(COLOR.GREEN, 0.2) })
-          else maxIntersectInput.item(0).set({ fill: COLOR.SUPER_LIGHT_GRAY })
+          else if (maxIntersectInputText.text === '?') maxIntersectInput.item(0).set({ fill: COLOR.SUPER_LIGHT_GRAY })
         }
 
         prevIntersectInput = maxIntersectInput
         canvas.renderAll()
       })
 
+      optionGroup.on('mouseup', () => {
+        const [_, optionRectHeight] = getObjectSize(optionRect)
+        const colIndex = i % columns
+        const rowIndex = Math.floor(i / columns)
+        const leftPos = startX + colIndex * (buttonWidth + colGap)
+        const topPos =
+          startPos + optionGroup.height / 2 + rowIndex * (optionRectHeight + (type === 'DRAG' ? SIZE.GAP_XS : colGap))
+
+        if (maxIntersectInput && optionGroup.intersectsWithObject(maxIntersectInput)) {
+          maxIntersectInput.item(1).set({
+            text: optionText.text,
+          })
+        }
+
+        moveSmooth(canvas, optionGroup, optionGroup.left, optionGroup.top, leftPos, topPos)
+      })
     }
     optionGroup.on('mouseover', () => {
       if (!isSelected && type !== 'DRAG') {
