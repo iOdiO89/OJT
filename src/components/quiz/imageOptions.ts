@@ -1,9 +1,12 @@
-import { Canvas, Group } from 'fabric'
+import { Group } from 'fabric'
 import { CANVAS, COLOR, SIZE } from '../../libs/constants'
 import { createImageElement } from '../../utils/createImageElement'
 import { createDefaultButton } from '../../utils/createButton'
+import { canvasAtom, store } from '../../libs/atoms'
 
-export async function renderImageOptions(canvas: Canvas, images: string[], startPos: number): Promise<Group[]> {
+export async function renderImageOptions(startPos: number, images: string[]): Promise<Group[]> {
+  const canvas = store.get(canvasAtom)
+
   const totalWidth = images.length * SIZE.BUTTON_WIDTH + (images.length - 1) * SIZE.GAP_SM
   const startX = (CANVAS.WIDTH - totalWidth) / 2
 

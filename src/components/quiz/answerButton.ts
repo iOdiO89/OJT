@@ -1,18 +1,15 @@
-import { Canvas, Group, IText, Rect } from 'fabric'
+import { Group, IText, Rect } from 'fabric'
 import { hexToRGB } from '../../utils/hexToRGB'
 import { CANVAS, COLOR, PATH, QUIZ_COUNT } from '../../libs/constants'
 import changeUrl from '../../utils/router'
 import { createDefaultButton } from '../../utils/createButton'
 import { showToast } from '../../utils/showToast'
+import { canvasAtom, quizAtom, store } from '../../libs/atoms'
 
-export function renderAnswerButton(
-  canvas: Canvas,
-  startPos: number,
-  optionGroup: Group[],
-  answer: boolean[],
-  quizNum: number,
-  quizType: QUIZ_TYPE
-): [IText, Rect, Group] {
+export function renderAnswerButton(startPos: number, optionGroup: Group[], quizNum: number): [IText, Rect, Group] {
+  const canvas = store.get(canvasAtom)
+  const quizData = store.get(quizAtom)
+
   const [answerText, answerRect, answerGroup] = createDefaultButton('정답 확인', 200)
   answerText.set({
     fill: 'white',
@@ -47,10 +44,10 @@ export function renderAnswerButton(
   const selectedOptionGroup = new Set()
   optionGroup.forEach((option, index) =>
     option.on('mousedown', () => {
-      if (quizType === 'SINGLE' || quizType === 'MATH') {
+      if (quizData.type === 'SINGLE' || quizData.type === 'MATH') {
         selectedOptionGroup.clear()
         selectedOptionGroup.add(index)
-      } else if (quizType === 'MULTI') {
+      } else if (quizData.type === 'MULTI') {
         if (selectedOptionGroup.has(index)) selectedOptionGroup.delete(index)
         else selectedOptionGroup.add(index)
       }
@@ -84,7 +81,7 @@ export function renderAnswerButton(
       }
 
       optionGroup.forEach((option, index) => {
-        const isCorrect = answer[index]
+        const isCorrect = quizData.answer[index]
 
         if (!isCorrect && selectedOptionGroup.has(index)) {
           // 오답을 선택한 경우

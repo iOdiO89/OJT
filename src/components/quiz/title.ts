@@ -1,12 +1,16 @@
-import { Canvas, IText } from 'fabric'
+import { IText } from 'fabric'
+import { canvasAtom, quizAtom, store } from '../../libs/atoms'
 
-export function renderTitle(canvas: Canvas, title: string): IText {
-  const questionText = new IText(title, {
+export function renderTitle(quizNum: number): IText {
+  const quiz = store.get(quizAtom)
+  const questionText = new IText(`${quizNum}. ${quiz.question}`, {
     fontSize: 24,
     selectable: false,
     fontFamily: 'NanumSquareRound',
   })
-  canvas.add(questionText)
+
+  const canvas = store.get(canvasAtom)
+  if (canvas) canvas.add(questionText)
 
   return questionText
 }

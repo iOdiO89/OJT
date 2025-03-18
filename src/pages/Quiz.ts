@@ -1,4 +1,4 @@
-import { Canvas, Group } from 'fabric'
+import { Canvas } from 'fabric'
 import { quizData } from '../libs/dummy'
 import { renderTitle } from '../components/quiz/title'
 import { renderOptions } from '../components/quiz/options'
@@ -6,13 +6,15 @@ import { renderAnswerButton } from '../components/quiz/answerButton'
 import { getOptionStyle } from '../utils/getOptionStyle'
 import { CANVAS } from '../libs/constants'
 import { renderImageOptions } from '../components/quiz/imageOptions'
+import { canvasAtom, quizAtom, store } from '../libs/atoms'
 
 export default async function Quiz(): Promise<HTMLElement> {
   const queryString = window.location.search
   const urlParams = new URLSearchParams(queryString)
   const quizNum = Number(urlParams.get('no'))
-  const quizIndex = quizNum - 1
-  const quizType = quizData[quizIndex].type
+
+  const currentQuizData = quizData[quizNum - 1]
+  store.set(quizAtom, currentQuizData)
 
   const container = document.createElement('main')
   container.innerHTML = `
@@ -25,27 +27,22 @@ export default async function Quiz(): Promise<HTMLElement> {
     width: CANVAS.WIDTH,
     height: CANVAS.HEIGHT,
   })
-  const questionText = renderTitle(canvas, `${quizNum}. ${quizData[quizIndex].question}`)
+  store.set(canvasAtom, canvas)
+
+  const questionText = renderTitle(quizNum)
   const questionEndPos = questionText.top + questionText.height
 
-  let inputOptions: Group[] = []
-  if (quizData[quizIndex].images)
-    inputOptions = await renderImageOptions(canvas, quizData[quizIndex].images, questionEndPos + 24)
+  let inputOptions
+  if (currentQuizData.images) inputOptions = await renderImageOptions(questionEndPos + 24, currentQuizData.images)
 
-  const optionStyle = getOptionStyle(quizType)
-  const [_, __, optionGroupList] = renderOptions(
-    canvas,
-    quizData[quizIndex].options,
-    quizType,
-    quizData[quizIndex].images ? questionEndPos + 300 + 72 : questionEndPos + 24,
-    optionStyle?.buttonWidth,
-    optionStyle?.colGap,
-    optionStyle?.column,
-    inputOptions
-  )
+  let optionStartPos = questionEndPos + 24
+  if (currentQuizData.images) optionStartPos += 300 + 48
+
+  const optionStyle = getOptionStyle(currentQuizData.type)
+  const [_, __, optionGroupList] = renderOptions(optionStartPos, optionStyle, inputOptions)
   const optionEndPos = optionGroupList[optionGroupList.length - 1].top + optionGroupList[0].height
 
-  renderAnswerButton(canvas, optionEndPos + 16, optionGroupList, quizData[quizIndex].answer, quizNum, quizType)
+  renderAnswerButton(optionEndPos + 16, optionGroupList, quizNum)
 
   return container
 }

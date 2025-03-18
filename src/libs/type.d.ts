@@ -24,3 +24,8 @@ interface QuizB extends QuizBase {
 
 type Quiz = QuizA | QuizB
 
+interface OptionStyle {
+  buttonWidth: number
+  colGap: number
+  col: number
+}
