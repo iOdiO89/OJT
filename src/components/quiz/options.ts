@@ -41,7 +41,7 @@ export const renderOptions = (
     })
 
     optionGroup.on('mouseover', () => {
-      if (!isSelected) {
+      if (!isSelected && type !== 'DRAG') {
         optionRect.set({
           stroke: COLOR.GREEN,
           fill: hexToRGB(COLOR.GREEN, 0.01),
