@@ -26,6 +26,7 @@ export const createDefaultButton = (textValue: string, width?: number): [IText, 
       offsetY: 6,
       color: hexToRGB(COLOR.SHADOW, 0.03),
     }),
+    selectable: false,
   })
 
   const group = new Group([rect, text], {

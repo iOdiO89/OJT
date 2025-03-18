@@ -21,47 +21,19 @@ export const renderOptions = (
   const rectList: Rect[] = []
   const groupList: Group[] = []
   options.forEach((option, index) => {
-    const optionText = new IText(option, {
-      fontSize: 24,
-      fill: 'black',
-      originX: 'center',
-      originY: 'center',
-      selectable: false,
-      fontFamily: 'NanumSquareRound',
-    })
+    const [optionText, optionRect, optionGroup] = createDefaultButton(option, 250)
 
-    const [__, optionTextHeight] = getObjectSize(optionText)
-
-    const optionRect = new Rect({
-      width: buttonWidth,
-      height: optionTextHeight + 20,
+    optionRect.set({
       stroke: COLOR.GRAY,
       strokeWidth: 2,
-      rx: 8,
-      ry: 8,
-      fill: 'white',
-      shadow: new Shadow({
-        blur: 12,
-        offsetY: 6,
-        color: hexToRGB(COLOR.SHADOW, 0.03),
-      }),
-      selectable: false,
     })
     const [_, optionRectHeight] = getObjectSize(optionRect)
-
-    optionText.set({
-      left: buttonWidth / 2,
-      top: optionRectHeight / 2,
-    })
-
-    const optionGroup = new Group([optionRect, optionText], {
-      selectable: false,
-    })
 
     const colIndex = index % columns
     const rowIndex = Math.floor(index / columns)
     const leftPos = startX + colIndex * (buttonWidth + colGap)
-    const topPos = startPos + rowIndex * (optionRectHeight + (type === 'DRAG' ? SIZE.GAP_XS : colGap))
+    const topPos =
+      startPos + optionGroup.height / 2 + rowIndex * (optionRectHeight + (type === 'DRAG' ? SIZE.GAP_XS : colGap))
 
     optionGroup.set({
       left: leftPos,
