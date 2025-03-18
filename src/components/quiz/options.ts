@@ -76,10 +76,14 @@ export const renderOptions = (
           }
         }
 
-        if (prevIntersectInput && prevIntersectInput != maxIntersectInput)
-          prevIntersectInput.item(0).set({
-            fill: COLOR.SUPER_LIGHT_GRAY,
-          })
+        if (prevIntersectInput && prevIntersectInput != maxIntersectInput) {
+          const prevInputText = prevIntersectInput.item(1) as IText
+
+          if (prevInputText.text === '?')
+            prevIntersectInput.item(0).set({
+              fill: COLOR.SUPER_LIGHT_GRAY,
+            })
+        }
 
         if (maxIntersectInput) {
           const maxIntersectInputText = maxIntersectInput.item(1) as IText
