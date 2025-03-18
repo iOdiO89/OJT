@@ -6,7 +6,12 @@ import { createDefaultButton } from '../../utils/createButton'
 import { showToast } from '../../utils/showToast'
 import { canvasAtom, quizAtom, store } from '../../libs/atoms'
 
-export function renderAnswerButton(startPos: number, optionGroup: Group[], quizNum: number): [IText, Rect, Group] {
+export function renderAnswerButton(
+  startPos: number,
+  quizNum: number,
+  optionGroup: Group[],
+  labelGroup?: Group[]
+): [IText, Rect, Group] {
   const canvas = store.get(canvasAtom)
   const quizData = store.get(quizAtom)
 
@@ -51,32 +56,74 @@ export function renderAnswerButton(startPos: number, optionGroup: Group[], quizN
   let hasPartialCorrect = false
   answerGroup.on('mousedown', () => {
     if (answerText.text === '정답 확인') {
-      if (selectedOptionGroup.size === 0) {
-        showToast(toastGroup, canvas, '선택된 답이 없습니다. 답을 선택해주세요!')
-        return
+      if (quizData.type !== 'DRAG') {
+        if (selectedOptionGroup.size === 0) {
+          showToast(toastGroup, canvas, '선택된 답이 없습니다. 답을 선택해주세요!')
+          return
+        }
+
+        optionGroup.forEach((option, index) => {
+          const isCorrect = quizData.answer[index]
+
+          if (!isCorrect && selectedOptionGroup.has(index)) {
+            // 오답을 선택한 경우
+            option.item(0).set({ stroke: COLOR.RED, fill: hexToRGB(COLOR.RED, 0.03) })
+            hasWrong = true
+          } else if (isCorrect && !selectedOptionGroup.has(index)) {
+            // 정답을 선택하지 않은 경우
+            option.item(0).set({ stroke: COLOR.GREEN, strokeDashArray: [10, 5], fill: hexToRGB(COLOR.GREEN, 0.03) })
+            isAllCorrect = false
+          } else if (isCorrect && selectedOptionGroup.has(index)) hasPartialCorrect = true // 정답을 선택한 경우
+
+          option.off('mousedown')
+          option.off('mouseover')
+          option.off('mouseout')
+        })
+
+        if (hasWrong) showToast(toastGroup, canvas, '이번엔 틀렸어요! 다음엔 조금 더 생각해봐요.')
+        else if (isAllCorrect) showToast(toastGroup, canvas, '정답이에요! 계속해서 멋진 실력을 보여주세요!')
+        else if (hasPartialCorrect) showToast(toastGroup, canvas, '거의 다 맞았어요! 다음엔 조금 더 노력해봐요.')
+      } else if (quizData.type === 'DRAG' && labelGroup) {
+        const hasNotSolvedQuestion = labelGroup.some(label => {
+          const labelText = label.item(1) as IText
+          if (labelText.text === '?') return true
+          else return false
+        })
+        if (hasNotSolvedQuestion) {
+          showToast(toastGroup, canvas, '아직 풀지 않은 문제가 있어요.')
+          return
+        }
+
+        labelGroup.forEach((label, index) => {
+          const labelRect = label.item(0)
+          const labelText = label.item(1) as IText
+          if (labelText.text === quizData.answer[index]) {
+            labelText.set({ fill: COLOR.GREEN })
+            labelRect.set({ fill: hexToRGB(COLOR.GREEN, 0.03), stroke: COLOR.GREEN, strokeWidth: 2 })
+          } else {
+            hasWrong = true
+            isAllCorrect = false
+            labelText.set({
+              fill: COLOR.RED,
+              text: `${labelText.text === '?' ? '' : labelText.text} ${quizData.answer[index]}`
+            })
+            labelRect.set({ fill: hexToRGB(COLOR.RED, 0.03), stroke: COLOR.RED, strokeWidth: 2 })
+
+            const textLength = labelText.text.length - quizData.answer[index].length - 1
+            labelText.styles = { 0: {} }
+            for (let i = 0; i < textLength; i++) labelText.styles[0][i] = { fill: 'black', linethrough: true }
+          }
+        })
+
+        optionGroup.forEach(option => {
+          const optionText = option.item(1) as IText
+          optionText.set({ fill: 'black' })
+          option.set({ evented: false, selectable: false })
+        })
+
+        if (hasWrong) showToast(toastGroup, canvas, '이번엔 틀렸어요! 다음엔 조금 더 생각해봐요.')
+        else if (isAllCorrect) showToast(toastGroup, canvas, '정답이에요! 계속해서 멋진 실력을 보여주세요!')
       }
-
-      optionGroup.forEach((option, index) => {
-        const isCorrect = quizData.answer[index]
-
-        if (!isCorrect && selectedOptionGroup.has(index)) {
-          // 오답을 선택한 경우
-          option.item(0).set({ stroke: COLOR.RED, fill: hexToRGB(COLOR.RED, 0.01) })
-          hasWrong = true
-        } else if (isCorrect && !selectedOptionGroup.has(index)) {
-          // 정답을 선택하지 않은 경우
-          option.item(0).set({ stroke: COLOR.GREEN, strokeDashArray: [10, 5], fill: hexToRGB(COLOR.GREEN, 0.01) })
-          isAllCorrect = false
-        } else if (isCorrect && selectedOptionGroup.has(index)) hasPartialCorrect = true // 정답을 선택한 경우
-
-        option.off('mousedown')
-        option.off('mouseover')
-        option.off('mouseout')
-      })
-
-      if (hasWrong) showToast(toastGroup, canvas, '이번엔 틀렸어요! 다음엔 조금 더 생각해봐요.')
-      else if (isAllCorrect) showToast(toastGroup, canvas, '정답이에요! 계속해서 멋진 실력을 보여주세요!')
-      else if (hasPartialCorrect) showToast(toastGroup, canvas, '거의 다 맞았어요! 다음엔 조금 더 노력해봐요.')
 
       answerText.set({ text: quizNum !== QUIZ_COUNT ? '다음 문제로' : '레포트 확인하기' })
     } else {

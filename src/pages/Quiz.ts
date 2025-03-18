@@ -42,7 +42,7 @@ export default async function Quiz(): Promise<HTMLElement> {
   const [, , optionGroupList] = renderOptions(optionStartPos, optionStyle, inputOptions)
   const optionEndPos = optionGroupList[optionGroupList.length - 1].top + optionGroupList[0].height
 
-  renderAnswerButton(optionEndPos + 16, optionGroupList, quizNum)
+  renderAnswerButton(optionEndPos + 16, quizNum, optionGroupList, inputOptions)
 
   return container
 }
