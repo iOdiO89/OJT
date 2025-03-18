@@ -50,6 +50,7 @@ export const renderOptions = (
   })
 
   let selectedSingleOption: Group | null = null
+  let selectedOptions = Array(inputOptions?.length).fill(undefined)
   const optionCount = options.length
   for (let i = 0; i < optionCount; i++) {
     const optionText = textList[i]
@@ -75,8 +76,7 @@ export const renderOptions = (
           }
         }
 
-        const prevIntersectInputText = prevIntersectInput?.item(1) as IText
-        if (prevIntersectInput && prevIntersectInput != maxIntersectInput && prevIntersectInputText.text !== '?')
+        if (prevIntersectInput && prevIntersectInput != maxIntersectInput)
           prevIntersectInput.item(0).set({
             fill: COLOR.SUPER_LIGHT_GRAY,
           })
@@ -100,12 +100,35 @@ export const renderOptions = (
           startPos + optionGroup.height / 2 + rowIndex * (optionRectHeight + (type === 'DRAG' ? SIZE.GAP_XS : colGap))
 
         if (maxIntersectInput && optionGroup.intersectsWithObject(maxIntersectInput)) {
+          const inputIndex = inputOptions.findIndex((input) => input === maxIntersectInput)
+          if (inputIndex >= 0) {
+            const prevOption = selectedOptions[inputIndex]
+            if (prevOption) {
+              const inputText = prevOption.item(1) as IText
+              inputText.set({
+                fill: 'black',
+              })
+              prevOption.set({
+                evented: true,
+              })
+            }
+
+            selectedOptions[inputIndex] = optionGroup
+          }
+
           maxIntersectInput.item(1).set({
             text: optionText.text,
+          })
+          optionText.set({
+            fill: COLOR.GRAY,
+          })
+          optionGroup.set({
+            evented: false,
           })
         }
 
         moveSmooth(canvas, optionGroup, optionGroup.left, optionGroup.top, leftPos, topPos)
+        canvas.renderAll()
       })
     }
     optionGroup.on('mouseover', () => {
