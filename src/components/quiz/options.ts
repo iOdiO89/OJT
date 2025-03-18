@@ -33,9 +33,9 @@ export const renderOptions = (
 
     optionRect.set({
       stroke: COLOR.GRAY,
-      strokeWidth: 2,
+      strokeWidth: 2
     })
-    const [_, optionRectHeight] = getObjectSize(optionRect)
+    const [, optionRectHeight] = getObjectSize(optionRect)
 
     const colIndex = index % col
     const rowIndex = Math.floor(index / col)
@@ -43,10 +43,7 @@ export const renderOptions = (
     const topPos =
       startPos + optionGroup.height / 2 + rowIndex * (optionRectHeight + (quizType === 'DRAG' ? SIZE.GAP_XS : colGap))
 
-    optionGroup.set({
-      left: leftPos,
-      top: topPos,
-    })
+    optionGroup.set({ left: leftPos, top: topPos })
 
     textList.push(optionText)
     rectList.push(optionRect)
@@ -54,8 +51,9 @@ export const renderOptions = (
     canvas.add(optionGroup)
   })
 
-  let selectedSingleOption: Group | null = null
+  // eslint-disable-next-line
   let selectedOptions = Array(inputOptions?.length).fill(undefined)
+  let selectedSingleOption: Group | null = null
   const optionCount = quizOptions.length
   for (let i = 0; i < optionCount; i++) {
     const optionText = textList[i]
@@ -63,11 +61,7 @@ export const renderOptions = (
     const optionGroup = groupList[i]
 
     if (quizType === 'DRAG' && inputOptions) {
-      optionGroup.set({
-        selectable: true,
-        hasBorders: false,
-        hasControls: false,
-      })
+      optionGroup.set({ selectable: true, hasBorders: false, hasControls: false })
 
       let prevIntersectInput: Group | undefined
       let maxIntersectInput: Group | undefined
@@ -86,7 +80,7 @@ export const renderOptions = (
 
           if (prevInputText.text === '?')
             prevIntersectInput.item(0).set({
-              fill: COLOR.SUPER_LIGHT_GRAY,
+              fill: COLOR.SUPER_LIGHT_GRAY
             })
         }
 
@@ -101,7 +95,7 @@ export const renderOptions = (
       })
 
       optionGroup.on('mouseup', () => {
-        const [_, optionRectHeight] = getObjectSize(optionRect)
+        const [, optionRectHeight] = getObjectSize(optionRect)
         const colIndex = i % col
         const rowIndex = Math.floor(i / col)
         const leftPos = startX + colIndex * (buttonWidth + colGap)
@@ -111,31 +105,21 @@ export const renderOptions = (
           rowIndex * (optionRectHeight + (quizType === 'DRAG' ? SIZE.GAP_XS : colGap))
 
         if (maxIntersectInput && optionGroup.intersectsWithObject(maxIntersectInput)) {
-          const inputIndex = inputOptions.findIndex((input) => input === maxIntersectInput)
+          const inputIndex = inputOptions.findIndex(input => input === maxIntersectInput)
           if (inputIndex >= 0) {
             const prevOption = selectedOptions[inputIndex]
             if (prevOption) {
               const inputText = prevOption.item(1) as IText
-              inputText.set({
-                fill: 'black',
-              })
-              prevOption.set({
-                evented: true,
-              })
+              inputText.set({ fill: 'black' })
+              prevOption.set({ evented: true })
             }
 
             selectedOptions[inputIndex] = optionGroup
           }
 
-          maxIntersectInput.item(1).set({
-            text: optionText.text,
-          })
-          optionText.set({
-            fill: COLOR.GRAY,
-          })
-          optionGroup.set({
-            evented: false,
-          })
+          maxIntersectInput.item(1).set({ text: optionText.text })
+          optionText.set({ fill: COLOR.GRAY })
+          optionGroup.set({ evented: false })
         }
 
         moveSmooth(canvas, optionGroup, optionGroup.left, optionGroup.top, leftPos, topPos)
@@ -144,10 +128,7 @@ export const renderOptions = (
     }
     optionGroup.on('mouseover', () => {
       if (!isSelected && quizType !== 'DRAG') {
-        optionRect.set({
-          stroke: COLOR.GREEN,
-          fill: hexToRGB(COLOR.GREEN, 0.01),
-        })
+        optionRect.set({ stroke: COLOR.GREEN, fill: hexToRGB(COLOR.GREEN, 0.01) })
       }
       optionGroup.set({ hoverCursor: 'pointer' })
       canvas.renderAll()
@@ -155,10 +136,7 @@ export const renderOptions = (
 
     optionGroup.on('mouseout', () => {
       if (!isSelected) {
-        optionRect.set({
-          stroke: COLOR.GRAY,
-          fill: 'white',
-        })
+        optionRect.set({ stroke: COLOR.GRAY, fill: 'white' })
         canvas.renderAll()
       }
     })
@@ -169,10 +147,7 @@ export const renderOptions = (
       else if (quizType === 'SINGLE' || quizType === 'MATH') {
         if (selectedSingleOption && selectedSingleOption !== optionGroup) {
           const prevRect = selectedSingleOption.item(0) as Rect
-          prevRect.set({
-            stroke: COLOR.GRAY,
-            fill: 'white',
-          })
+          prevRect.set({ stroke: COLOR.GRAY, fill: 'white' })
         }
 
         if (selectedSingleOption === optionGroup) {
@@ -186,7 +161,7 @@ export const renderOptions = (
 
       optionRect.set({
         stroke: isSelected ? COLOR.GREEN : COLOR.GRAY,
-        fill: isSelected ? hexToRGB(COLOR.GREEN, 0.01) : 'white',
+        fill: isSelected ? hexToRGB(COLOR.GREEN, 0.01) : 'white'
       })
 
       canvas.renderAll()

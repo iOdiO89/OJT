@@ -11,34 +11,14 @@ export function renderAnswerButton(startPos: number, optionGroup: Group[], quizN
   const quizData = store.get(quizAtom)
 
   const [answerText, answerRect, answerGroup] = createDefaultButton('정답 확인', 200)
-  answerText.set({
-    fill: 'white',
-    fontSize: 20,
-  })
-  answerRect.set({
-    fill: COLOR.PURPLE,
-    rx: 24,
-    ry: 24,
-  })
-  answerGroup.set({
-    originX: 'center',
-    top: startPos + 40,
-    left: CANVAS.WIDTH / 2,
-    evented: true,
-  })
+  answerText.set({ fill: 'white', fontSize: 20 })
+  answerRect.set({ fill: COLOR.PURPLE, rx: 24, ry: 24 })
+  answerGroup.set({ originX: 'center', top: startPos + 40, left: CANVAS.WIDTH / 2, evented: true })
   const answerEndPos = answerGroup.top + answerGroup.height
 
   const [toastText, toastRect, toastGroup] = createDefaultButton('')
-  toastText.set({
-    fill: COLOR.PURPLE,
-    fontSize: 20,
-  })
-  toastRect.set({
-    fill: 'white',
-    stroke: COLOR.PURPLE,
-    rx: 24,
-    ry: 24,
-  })
+  toastText.set({ fill: COLOR.PURPLE, fontSize: 20 })
+  toastRect.set({ fill: 'white', stroke: COLOR.PURPLE, rx: 24, ry: 24 })
   toastGroup.set({ originX: 'center', top: answerEndPos + 20, left: 400, opacity: 0, visibility: false })
 
   const selectedOptionGroup = new Set()
@@ -57,16 +37,12 @@ export function renderAnswerButton(startPos: number, optionGroup: Group[], quizN
 
   answerGroup.on('mouseover', () => {
     answerGroup.set({ hoverCursor: 'pointer' })
-    answerRect.set({
-      fill: COLOR.LIGHT_PURPLE,
-    })
+    answerRect.set({ fill: COLOR.LIGHT_PURPLE })
     canvas.renderAll()
   })
 
   answerGroup.on('mouseout', () => {
-    answerRect.set({
-      fill: COLOR.PURPLE,
-    })
+    answerRect.set({ fill: COLOR.PURPLE })
     canvas.renderAll()
   })
 
@@ -85,18 +61,11 @@ export function renderAnswerButton(startPos: number, optionGroup: Group[], quizN
 
         if (!isCorrect && selectedOptionGroup.has(index)) {
           // 오답을 선택한 경우
-          option.item(0).set({
-            stroke: COLOR.RED,
-            fill: hexToRGB(COLOR.RED, 0.01),
-          })
+          option.item(0).set({ stroke: COLOR.RED, fill: hexToRGB(COLOR.RED, 0.01) })
           hasWrong = true
         } else if (isCorrect && !selectedOptionGroup.has(index)) {
           // 정답을 선택하지 않은 경우
-          option.item(0).set({
-            stroke: COLOR.GREEN,
-            strokeDashArray: [10, 5],
-            fill: hexToRGB(COLOR.GREEN, 0.01),
-          })
+          option.item(0).set({ stroke: COLOR.GREEN, strokeDashArray: [10, 5], fill: hexToRGB(COLOR.GREEN, 0.01) })
           isAllCorrect = false
         } else if (isCorrect && selectedOptionGroup.has(index)) hasPartialCorrect = true // 정답을 선택한 경우
 
@@ -109,9 +78,7 @@ export function renderAnswerButton(startPos: number, optionGroup: Group[], quizN
       else if (isAllCorrect) showToast(toastGroup, canvas, '정답이에요! 계속해서 멋진 실력을 보여주세요!')
       else if (hasPartialCorrect) showToast(toastGroup, canvas, '거의 다 맞았어요! 다음엔 조금 더 노력해봐요.')
 
-      answerText.set({
-        text: quizNum !== QUIZ_COUNT ? '다음 문제로' : '레포트 확인하기',
-      })
+      answerText.set({ text: quizNum !== QUIZ_COUNT ? '다음 문제로' : '레포트 확인하기' })
     } else {
       if (quizNum !== QUIZ_COUNT) changeUrl(`${PATH.QUIZ}?no=${quizNum + 1}`)
       else changeUrl(PATH.REPORT)

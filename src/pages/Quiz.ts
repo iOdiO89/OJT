@@ -25,7 +25,7 @@ export default async function Quiz(): Promise<HTMLElement> {
     defaultCursor: 'default',
     hoverCursor: 'default',
     width: CANVAS.WIDTH,
-    height: CANVAS.HEIGHT,
+    height: CANVAS.HEIGHT
   })
   store.set(canvasAtom, canvas)
 
@@ -39,7 +39,7 @@ export default async function Quiz(): Promise<HTMLElement> {
   if (currentQuizData.images) optionStartPos += 300 + 48
 
   const optionStyle = getOptionStyle(currentQuizData.type)
-  const [_, __, optionGroupList] = renderOptions(optionStartPos, optionStyle, inputOptions)
+  const [, , optionGroupList] = renderOptions(optionStartPos, optionStyle, inputOptions)
   const optionEndPos = optionGroupList[optionGroupList.length - 1].top + optionGroupList[0].height
 
   renderAnswerButton(optionEndPos + 16, optionGroupList, quizNum)

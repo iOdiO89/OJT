@@ -13,11 +13,11 @@ export const moveSmooth = (
     endValue: originLeft,
     duration: 300,
     easing: util.ease.easeOutQuad,
-    onChange: (value) => {
+    onChange: value => {
       object.set({ left: value })
       object.setCoords()
       canvas.renderAll()
-    },
+    }
   })
 
   util.animate({
@@ -25,10 +25,10 @@ export const moveSmooth = (
     endValue: originTop,
     duration: 300,
     easing: util.ease.easeOutQuad,
-    onChange: (value) => {
+    onChange: value => {
       object.set({ top: value })
       object.setCoords()
       canvas.renderAll()
-    },
+    }
   })
 }

@@ -2,14 +2,14 @@ export const PATH = {
   HOME: '/',
   QUIZ: '/quiz',
   REPORT: '/path',
-  NOT_FOUND: '/404',
+  NOT_FOUND: '/404'
 }
 
 export const QUIZ_COUNT = 10
 
 export const CANVAS = {
   WIDTH: 800,
-  HEIGHT: 600,
+  HEIGHT: 600
 }
 
 export const SIZE = {
@@ -19,7 +19,7 @@ export const SIZE = {
   GAP_SM: 20,
   GAP_M: 24,
   GAP_L: 32,
-  GAP_XL: 40,
+  GAP_XL: 40
 }
 
 export const COLOR = {
@@ -29,5 +29,5 @@ export const COLOR = {
   RED: '#ef4444',
   PURPLE: '#8347FF',
   LIGHT_PURPLE: '#C1A3FF',
-  SHADOW: '#181818',
+  SHADOW: '#181818'
 }

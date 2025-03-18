@@ -10,7 +10,7 @@ export const createDefaultButton = (textValue: string, width?: number): [IText, 
     originX: 'center',
     originY: 'center',
     selectable: false,
-    fontFamily: 'NanumSquareRound',
+    fontFamily: 'NanumSquareRound'
   })
   const [textWidth, textHeight] = getObjectSize(text)
   const rect = new Rect({
@@ -24,16 +24,16 @@ export const createDefaultButton = (textValue: string, width?: number): [IText, 
     shadow: new Shadow({
       blur: 12,
       offsetY: 6,
-      color: hexToRGB(COLOR.SHADOW, 0.03),
+      color: hexToRGB(COLOR.SHADOW, 0.03)
     }),
-    selectable: false,
+    selectable: false
   })
 
   const group = new Group([rect, text], {
     originX: 'center',
     originY: 'center',
     selectable: false,
-    hasControls: false,
+    hasControls: false
   })
 
   return [text, rect, group]

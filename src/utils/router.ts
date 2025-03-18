@@ -3,7 +3,7 @@ import { routes } from '../libs/routes.ts'
 
 function checkUrl(requestedUrl: string): Route | false {
   const [pathname] = requestedUrl.split('?')
-  return routes.find((route) => route.path === pathname) ?? false
+  return routes.find(route => route.path === pathname) ?? false
 }
 
 export default function changeUrl(requestedUrl: string, state?: object): void {
@@ -21,7 +21,7 @@ export default function changeUrl(requestedUrl: string, state?: object): void {
   history.pushState(state ?? null, '', requestedUrl)
 
   const pageElement = match.page()
-  if (pageElement instanceof Promise) pageElement.then((page) => $app.appendChild(page))
+  if (pageElement instanceof Promise) pageElement.then(page => $app.appendChild(page))
   else $app.appendChild(pageElement)
 
   const cssPath = `/src/styles/${match.style}.css`

@@ -6,7 +6,7 @@ export function renderTitle(quizNum: number): IText {
   const questionText = new IText(`${quizNum}. ${quiz.question}`, {
     fontSize: 24,
     selectable: false,
-    fontFamily: 'NanumSquareRound',
+    fontFamily: 'NanumSquareRound'
   })
 
   const canvas = store.get(canvasAtom)

@@ -6,13 +6,9 @@ export const showToast = (object: Group, canvas: Canvas, text: string) => {
   const objectText = object.item(1)
   const objectRect = object.item(0)
   objectText.set({ text })
-  const [textWidth, _] = getObjectSize(objectText)
-  objectRect.set({
-    width: textWidth + 24,
-  })
-  object.set({
-    left: CANVAS.WIDTH / 2,
-  })
+  const [textWidth] = getObjectSize(objectText)
+  objectRect.set({ width: textWidth + 24 })
+  object.set({ left: CANVAS.WIDTH / 2 })
 
   object.set({ opacity: 0, visible: true })
   canvas.renderAll()
@@ -22,7 +18,7 @@ export const showToast = (object: Group, canvas: Canvas, text: string) => {
     endValue: 1,
     duration: 300,
     easing: util.ease.easeInOutQuad,
-    onChange: (opacity) => {
+    onChange: opacity => {
       object.set({ opacity })
       canvas.renderAll()
     },
@@ -33,16 +29,16 @@ export const showToast = (object: Group, canvas: Canvas, text: string) => {
           endValue: 0,
           duration: 300,
           easing: util.ease.easeInOutQuad,
-          onChange: (opacity) => {
+          onChange: opacity => {
             object.set({ opacity })
             canvas.renderAll()
           },
           onComplete: () => {
             object.set({ visible: false })
             canvas.renderAll()
-          },
+          }
         })
       }, 1000)
-    },
+    }
   })
 }

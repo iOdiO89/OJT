@@ -22,13 +22,13 @@ export const createImageElement = async (path: string, size: number = 180, paddi
     shadow: new Shadow({
       blur: 12,
       offsetY: 6,
-      color: hexToRGB(COLOR.SHADOW, 0.1),
-    }),
+      color: hexToRGB(COLOR.SHADOW, 0.1)
+    })
   })
 
   const group = new Group([rect, image], {
     originX: 'center',
-    originY: 'top',
+    originY: 'top'
   })
 
   return group
