@@ -21,7 +21,8 @@ export default function changeUrl(requestedUrl: string, state?: object): void {
   history.pushState(state ?? null, '', requestedUrl)
 
   const pageElement = match.page()
-  $app.appendChild(pageElement)
+  if (pageElement instanceof Promise) pageElement.then((page) => $app.appendChild(page))
+  else $app.appendChild(pageElement)
 
   const cssPath = `/src/styles/${match.style}.css`
   const styleElement = document.getElementById('styles') as HTMLLinkElement | null

@@ -1,4 +1,4 @@
-import { Canvas } from 'fabric'
+import { Canvas, Group } from 'fabric'
 import { quizData } from '../libs/dummy'
 import { renderTitle } from '../components/quiz/title'
 import { renderOptions } from '../components/quiz/options'
@@ -7,7 +7,7 @@ import { getOptionStyle } from '../utils/getOptionStyle'
 import { CANVAS } from '../libs/constants'
 import { renderImageOptions } from '../components/quiz/imageOptions'
 
-export default function Quiz(): HTMLElement {
+export default async function Quiz(): Promise<HTMLElement> {
   const queryString = window.location.search
   const urlParams = new URLSearchParams(queryString)
   const quizNum = Number(urlParams.get('no'))
@@ -28,7 +28,9 @@ export default function Quiz(): HTMLElement {
   const questionText = renderTitle(canvas, `${quizNum}. ${quizData[quizIndex].question}`)
   const questionEndPos = questionText.top + questionText.height
 
-  if (quizData[quizIndex].images) renderImageOptions(canvas, quizData[quizIndex].images, questionEndPos + 24)
+  let inputOptions: Group[] = []
+  if (quizData[quizIndex].images)
+    inputOptions = await renderImageOptions(canvas, quizData[quizIndex].images, questionEndPos + 24)
 
   const optionStyle = getOptionStyle(quizType)
   const [_, __, optionGroupList] = renderOptions(
