@@ -1,4 +1,4 @@
-export const quizData: QuizItem[] = [
+export const quizData: Quiz[] = [
   {
     type: 'SINGLE',
     question: '사과의 색깔은 무엇일까요?',
@@ -40,7 +40,7 @@ export const quizData: QuizItem[] = [
     question: '그림을 보고, 빈칸에 알맞은 말을 옮겨 보세요.',
     images: ['/images/eraser.png', '/images/scissor.png', '/images/pencil.png'],
     options: ['연필', '풀', '가위', '지우개', '형광펜', '노트'],
-    answer: [false, false, false, true, false, false],
+    answer: ['지우개', '가위', '연필'],
   },
   {
     type: 'SINGLE',
