@@ -7,7 +7,7 @@ export async function renderImageOptions(canvas: Canvas, images: string[], start
   const totalWidth = images.length * SIZE.BUTTON_WIDTH + (images.length - 1) * SIZE.GAP_SM
   const startX = (CANVAS.WIDTH - totalWidth) / 2
 
-  const imageGroupList = []
+  const inputGroupList = []
 
   for (let i = 0; i < images.length; i++) {
     const imageGroup = await createImageElement(images[i], SIZE.BUTTON_WIDTH)
@@ -29,10 +29,11 @@ export async function renderImageOptions(canvas: Canvas, images: string[], start
       originY: 'top',
     })
 
-    imageGroupList.push(imageGroup)
     canvas.add(imageGroup)
     canvas.add(inputGroup)
+    inputGroupList.push(inputGroup)
   }
   canvas.renderAll()
-  return imageGroupList
+
+  return inputGroupList
 }

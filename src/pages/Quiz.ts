@@ -40,7 +40,8 @@ export default async function Quiz(): Promise<HTMLElement> {
     quizData[quizIndex].images ? questionEndPos + 300 + 72 : questionEndPos + 24,
     optionStyle?.buttonWidth,
     optionStyle?.colGap,
-    optionStyle?.column
+    optionStyle?.column,
+    inputOptions
   )
   const optionEndPos = optionGroupList[optionGroupList.length - 1].top + optionGroupList[0].height
 

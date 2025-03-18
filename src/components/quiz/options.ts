@@ -3,6 +3,7 @@ import { hexToRGB } from '../../utils/hexToRGB'
 import { CANVAS, COLOR, SIZE } from '../../libs/constants'
 import { getObjectSize } from '../../utils/getObjectSize'
 import { createDefaultButton } from '../../utils/createButton'
+import { getIntersectionRect } from '../../utils/getIntersectionArea'
 
 export const renderOptions = (
   canvas: Canvas,
@@ -11,7 +12,8 @@ export const renderOptions = (
   startPos: number,
   buttonWidth: number = SIZE.BUTTON_WIDTH,
   colGap: number = SIZE.GAP_SM,
-  columns: number = 3
+  columns: number = 3,
+  inputOptions?: Group[]
 ): [IText[], Rect[], Group[]] => {
   const totalWidth = columns * buttonWidth + (columns - 1) * colGap
   const startX = (CANVAS.WIDTH - totalWidth) / 2 + buttonWidth / 2
@@ -45,11 +47,48 @@ export const renderOptions = (
     groupList.push(optionGroup)
     canvas.add(optionGroup)
   })
+
+  let selectedSingleOption: Group | null = null
   const optionCount = options.length
   for (let i = 0; i < optionCount; i++) {
     const optionText = textList[i]
     const optionRect = rectList[i]
     const optionGroup = groupList[i]
+
+    if (type === 'DRAG' && inputOptions) {
+      optionGroup.set({
+        selectable: true,
+        hasBorders: false,
+        hasControls: false,
+      })
+
+      let prevIntersectInput: Group | undefined
+      optionGroup.on('moving', () => {
+        let maxIntersectInput: Group | undefined
+        let maxIntersectSpace = 0
+        for (const input of inputOptions) {
+          const intersectSpace = getIntersectionRect(optionGroup, input)
+          if (intersectSpace > maxIntersectSpace) {
+            maxIntersectSpace = intersectSpace
+            maxIntersectInput = input
+          }
+        }
+
+        if (prevIntersectInput && prevIntersectInput != maxIntersectInput)
+          prevIntersectInput.item(0).set({
+            fill: COLOR.SUPER_LIGHT_GRAY,
+          })
+
+        if (maxIntersectInput) {
+          if (maxIntersectSpace > 0) maxIntersectInput.item(0).set({ fill: hexToRGB(COLOR.GREEN, 0.2) })
+          else maxIntersectInput.item(0).set({ fill: COLOR.SUPER_LIGHT_GRAY })
+        }
+
+        prevIntersectInput = maxIntersectInput
+        canvas.renderAll()
+      })
+
+    }
     optionGroup.on('mouseover', () => {
       if (!isSelected && type !== 'DRAG') {
         optionRect.set({
