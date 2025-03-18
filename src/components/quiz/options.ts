@@ -1,7 +1,8 @@
-import { Canvas, Group, IText, Rect, Shadow } from 'fabric'
+import { Canvas, Group, IText, Rect } from 'fabric'
 import { hexToRGB } from '../../utils/hexToRGB'
 import { CANVAS, COLOR, SIZE } from '../../libs/constants'
 import { getObjectSize } from '../../utils/getObjectSize'
+import { createDefaultButton } from '../../utils/createButton'
 
 export const renderOptions = (
   canvas: Canvas,
@@ -13,13 +14,12 @@ export const renderOptions = (
   columns: number = 3
 ): [IText[], Rect[], Group[]] => {
   const totalWidth = columns * buttonWidth + (columns - 1) * colGap
-  const startX = (CANVAS.WIDTH - totalWidth) / 2
-
-  let selectedSingleOption: Group | null = null
+  const startX = (CANVAS.WIDTH - totalWidth) / 2 + buttonWidth / 2
 
   const textList: IText[] = []
   const rectList: Rect[] = []
   const groupList: Group[] = []
+
   options.forEach((option, index) => {
     const [optionText, optionRect, optionGroup] = createDefaultButton(option, 250)
 
@@ -40,6 +40,16 @@ export const renderOptions = (
       top: topPos,
     })
 
+    textList.push(optionText)
+    rectList.push(optionRect)
+    groupList.push(optionGroup)
+    canvas.add(optionGroup)
+  })
+  const optionCount = options.length
+  for (let i = 0; i < optionCount; i++) {
+    const optionText = textList[i]
+    const optionRect = rectList[i]
+    const optionGroup = groupList[i]
     optionGroup.on('mouseover', () => {
       if (!isSelected && type !== 'DRAG') {
         optionRect.set({
@@ -89,12 +99,7 @@ export const renderOptions = (
 
       canvas.renderAll()
     })
-
-    textList.push(optionText)
-    rectList.push(optionRect)
-    groupList.push(optionGroup)
-    canvas.add(optionGroup)
-  })
+  }
 
   return [textList, rectList, groupList]
 }
