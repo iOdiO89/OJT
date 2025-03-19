@@ -34,11 +34,15 @@ export default async function Quiz(): Promise<HTMLElement> {
   canvas.add(titleText)
   const questionEndPos = titleText.top + titleText.height
 
-  let inputOptions
-  if (currentQuizData.images) inputOptions = await renderImageOptions(questionEndPos + 24, currentQuizData.images)
+  let images, imagesEndPos
+  if (currentQuizData.images) {
+    images = await createImages(currentQuizData.images, questionEndPos + 24)
+    images.forEach(image => canvas.add(image.getGroupObject()))
 
   let optionStartPos = questionEndPos + 24
   if (currentQuizData.images) optionStartPos += 300 + 48
+    imagesEndPos = images[0].getGroupObject().top + images[0].getGroupObject().height
+  }
 
   const optionStyle = getOptionStyle(currentQuizData.type)
   const [, , optionGroupList] = renderOptions(optionStartPos, optionStyle, inputOptions)
