@@ -33,6 +33,8 @@ export function createTextBoxGrid(
 
     textBox.setGroup({ left, top })
 
+    textBox.setInitPosition(left, top)
+
     textBoxes.push(textBox)
   })
 

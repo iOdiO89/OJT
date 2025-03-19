@@ -86,4 +86,15 @@ export class TextBox {
   public getInitPosition(): { left: number; top: number } {
     return { left: this.initLeft ?? 0, top: this.initTop ?? 0 }
   }
+
+  public centerText(): void {
+    const [textWidth, textHeight] = getObjectSize(this.text)
+
+    this.text.set({
+      left: -textWidth / 2,
+      top: -textHeight / 2
+    })
+
+    this.group.setCoords()
+  }
 }

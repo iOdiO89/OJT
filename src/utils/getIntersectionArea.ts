@@ -1,8 +1,9 @@
 import { Group } from 'fabric'
+import { TextBox } from '../components/shared/TextBox'
 
-export const getIntersectionRect = (obj1: Group, obj2: Group): number => {
+export const getOverlappedSpace = (obj1: Group, obj2: TextBox): number => {
   const obj1Coords = obj1.getBoundingRect()
-  const obj2Coords = obj2.getBoundingRect()
+  const obj2Coords = obj2.getGroupObject().getBoundingRect()
 
   const x1 = Math.max(obj1Coords.left, obj2Coords.left)
   const y1 = Math.max(obj1Coords.top, obj2Coords.top)

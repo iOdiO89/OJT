@@ -1,8 +1,9 @@
-import { Canvas, FabricObject, util } from 'fabric'
+import { Canvas, util } from 'fabric'
+import { TextBox } from '../components/shared/TextBox'
 
 export const moveSmooth = (
   canvas: Canvas,
-  object: FabricObject,
+  object: TextBox,
   currentLeft: number,
   currentTop: number,
   originLeft: number,
@@ -14,8 +15,8 @@ export const moveSmooth = (
     duration: 300,
     easing: util.ease.easeOutQuad,
     onChange: value => {
-      object.set({ left: value })
-      object.setCoords()
+      object.setGroup({ left: value })
+      object.getGroupObject().setCoords()
       canvas.renderAll()
     }
   })
@@ -26,8 +27,8 @@ export const moveSmooth = (
     duration: 300,
     easing: util.ease.easeOutQuad,
     onChange: value => {
-      object.set({ top: value })
-      object.setCoords()
+      object.setGroup({ top: value })
+      object.getGroupObject().setCoords()
       canvas.renderAll()
     }
   })
