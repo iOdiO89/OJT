@@ -7,6 +7,7 @@ import { CANVAS } from '../libs/constants'
 import { renderImageOptions } from '../components/quiz/imageOptions'
 import { canvasAtom, quizAtom, store } from '../libs/atoms'
 import { Title } from '../components/quiz/QuizTitle'
+import { createTextBoxGrid } from '../utils/createGrid'
 
 export default async function Quiz(): Promise<HTMLElement> {
   const queryString = window.location.search
@@ -52,7 +53,7 @@ export default async function Quiz(): Promise<HTMLElement> {
   renderAnswerButton(optionEndPos + 16, quizNum, optionGroupList, inputOptions)
   const optionStartPos = (labelEndPos ?? imagesEndPos ?? questionEndPos) + 48
   const optionCol = currentQuizData.type === 'MATH' ? 10 : 3
-  const [options, optionGroups] = createTextBoxGrid(
+  const options = createTextBoxGrid(
     currentQuizData.options,
     optionStartPos,
     optionCol,
@@ -61,8 +62,8 @@ export default async function Quiz(): Promise<HTMLElement> {
     {},
     { stroke: COLOR.GRAY, strokeWidth: 2 }
   )
-  canvas.add(optionGroups)
-  handleOptions(canvas, currentQuizData.type, options, labels)
+  options.forEach(option => canvas.add(option.getGroupObject()))
+  handleOptions(canvas, currentQuizData.type, optionCol, options, labels)
 
   return container
 }

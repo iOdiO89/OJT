@@ -14,8 +14,6 @@ export class TextBox {
     this.text = new IText(textValue, {
       fontSize: 24,
       fill: 'black',
-      originX: 'center',
-      originY: 'center',
       selectable: false,
       fontFamily: 'NanumSquareRound'
     })
@@ -27,8 +25,6 @@ export class TextBox {
       rx: 8,
       ry: 8,
       fill: 'white',
-      originX: 'center',
-      originY: 'center',
       shadow: new Shadow({
         blur: 12,
         offsetY: 6,
@@ -37,9 +33,12 @@ export class TextBox {
       selectable: false
     })
 
+    this.text.set({
+      left: (this.rect.width - textWidth) / 2,
+      top: (this.rect.height - textHeight) / 2
+    })
+
     this.group = new Group([this.rect, this.text], {
-      originX: 'center',
-      originY: 'center',
       selectable: false,
       hasControls: false,
       hasBorders: false,

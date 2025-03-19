@@ -1,4 +1,3 @@
-import { Group } from 'fabric'
 import { TextBox } from '../components/shared/TextBox'
 import { CANVAS, SIZE } from '../libs/constants'
 import { getObjectSize } from './getObjectSize'
@@ -11,10 +10,13 @@ export function createTextBoxGrid(
   textProperties?: Record<string, unknown>,
   rectProperties?: Record<string, unknown>,
   groupProperties?: Record<string, unknown>
-): [TextBox[], Group] {
+): TextBox[] {
   const textBoxes: TextBox[] = []
   const textBoxWidth =
     rectProperties && 'width' in rectProperties ? (rectProperties.width as number) : SIZE.BUTTON_WIDTH
+
+  const gridWidth = col * textBoxWidth + (col - 1) * colGap
+  const startX = (CANVAS.WIDTH - gridWidth) / 2
 
   textList.forEach((text, index) => {
     const textBox = new TextBox(text, textBoxWidth)
@@ -26,25 +28,13 @@ export function createTextBoxGrid(
     const colIndex = index % col
     const rowIndex = Math.floor(index / col)
 
-    const left = colIndex * (textBoxWidth + colGap) + textBoxWidth / 2
-    const top = startPos + rowIndex * (rectHeight + rowGap) + rectHeight / 2
+    const left = startX + colIndex * (textBoxWidth + colGap)
+    const top = startPos + rowIndex * (rectHeight + rowGap)
 
-    textBox.setGroup({ left, top, originX: 'center', originY: 'center' })
-
-    textBox.setInitPosition(left, top)
+    textBox.setGroup({ left, top })
 
     textBoxes.push(textBox)
   })
 
-  const gridWidth = col * textBoxWidth + (col - 1) * colGap
-  const gridGroup = new Group(
-    textBoxes.map(textBox => textBox.getGroupObject()),
-    {
-      selectable: false,
-      subTargetCheck: true,
-      left: (CANVAS.WIDTH - gridWidth) / 2
-    }
-  )
-
-  return [textBoxes, gridGroup]
+  return textBoxes
 }
