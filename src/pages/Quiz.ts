@@ -47,8 +47,22 @@ export default async function Quiz(): Promise<HTMLElement> {
   const optionStyle = getOptionStyle(currentQuizData.type)
   const [, , optionGroupList] = renderOptions(optionStartPos, optionStyle, inputOptions)
   const optionEndPos = optionGroupList[optionGroupList.length - 1].top + optionGroupList[0].height
+  let labels, labelEndPos
 
   renderAnswerButton(optionEndPos + 16, quizNum, optionGroupList, inputOptions)
+  const optionStartPos = (labelEndPos ?? imagesEndPos ?? questionEndPos) + 48
+  const optionCol = currentQuizData.type === 'MATH' ? 10 : 3
+  const [options, optionGroups] = createTextBoxGrid(
+    currentQuizData.options,
+    optionStartPos,
+    optionCol,
+    currentQuizData.type === 'DRAG' ? SIZE.GAP_XS : SIZE.GAP_SM,
+    SIZE.GAP_SM,
+    {},
+    { stroke: COLOR.GRAY, strokeWidth: 2 }
+  )
+  canvas.add(optionGroups)
+  handleOptions(canvas, currentQuizData.type, options, labels)
 
   return container
 }
