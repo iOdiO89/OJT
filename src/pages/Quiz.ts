@@ -1,12 +1,12 @@
 import { Canvas } from 'fabric'
 import { quizData } from '../libs/dummy'
-import { renderTitle } from '../components/quiz/title'
 import { renderOptions } from '../components/quiz/options'
 import { renderAnswerButton } from '../components/quiz/answerButton'
 import { getOptionStyle } from '../utils/getOptionStyle'
 import { CANVAS } from '../libs/constants'
 import { renderImageOptions } from '../components/quiz/imageOptions'
 import { canvasAtom, quizAtom, store } from '../libs/atoms'
+import { Title } from '../components/quiz/QuizTitle'
 
 export default async function Quiz(): Promise<HTMLElement> {
   const queryString = window.location.search
@@ -29,8 +29,10 @@ export default async function Quiz(): Promise<HTMLElement> {
   })
   store.set(canvasAtom, canvas)
 
-  const questionText = renderTitle(quizNum)
-  const questionEndPos = questionText.top + questionText.height
+  const title = new Title(`${quizNum}. ${currentQuizData.question}`)
+  const titleText = title.getTextObject()
+  canvas.add(titleText)
+  const questionEndPos = titleText.top + titleText.height
 
   let inputOptions
   if (currentQuizData.images) inputOptions = await renderImageOptions(questionEndPos + 24, currentQuizData.images)
