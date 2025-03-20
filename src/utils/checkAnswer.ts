@@ -13,6 +13,7 @@ export const checkAnswer = (
   options: Option[],
   toast: TextBox,
   nextButton: QuizImage,
+  labels?: Option[]
 ) => {
   const selectedOptions = store.get(selectedOptionsAtom)
 
@@ -28,7 +29,6 @@ export const checkAnswer = (
 
   checkButton.on('mousedown', () => {
     if (quizData.type !== 'DRAG') {
-      let isAllCorrect = true
       if (checkButton.getTextValue() === '채점하기') {
         if (selectedOptions.size === 0) {
           showToast(canvas, toast, '선택된 답이 없습니다. 답을 선택해주세요!')
@@ -36,16 +36,52 @@ export const checkAnswer = (
         }
 
         const selectedOptionList = [...selectedOptions]
-
         options.forEach((_, index) => {
           if (quizData.answer[index] && !selectedOptions.has(index)) {
             isAllCorrect = false
           } else if (!quizData.answer[index] && selectedOptions.has(index)) isAllCorrect = false
         })
 
-        selectedOptionList.forEach(i => {
-          const option = options[i]
-          if (quizData.answer[i]) option.showIsCorrect()
+        if (isAllCorrect) {
+          showToast(canvas, toast, '정답이에요! 다음으로 넘어가볼까요?')
+          checkButton.setGroup({ evented: false })
+          nextButton.setGroup({ opacity: 100, visibility: true })
+        } else {
+
+          if (store.get(tryCountAtom) === 1) {
+            options.forEach((option, index) => {
+              if (quizData.answer[index]) {
+                if (selectedOptions.has(index)) option.showIsCorrect()
+                else option.showIsCorrect(false)
+              } else if (selectedOptions.has(index)) option.showIsWrong()
+            })
+            showToast(canvas, toast, `이번엔 틀렸어요. 다음엔 조금 더 노력해봐요!`)
+            checkButton.setGroup({ evented: false })
+            nextButton.setGroup({ opacity: 100, visibility: true })
+          } else {
+            selectedOptionList.forEach(i => {
+              const option = options[i]
+              if (quizData.answer[i]) option.showIsCorrect()
+              else {
+                option.showIsWrong()
+                isAllCorrect = false
+              }
+            })
+            showToast(canvas, toast, `다시 한 번 풀어볼까요? ${store.get(tryCountAtom) - 1}번의 기회가 남았어요.`)
+            checkButton.setText({ text: '다시 풀기' })
+          }
+        }
+
+        options.forEach(option => option.setGroup({ evented: false }))
+
+        canvas.renderAll()
+      } else {
+        isAllCorrect = true
+        selectedOptions.clear()
+        options.forEach(option => option.reset())
+        store.set(tryCountAtom, store.get(tryCountAtom) - 1)
+        checkButton.setText({ text: '채점하기' })
+      }
           else {
             option.showIsWrong()
             isAllCorrect = false

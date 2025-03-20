@@ -6,8 +6,13 @@ import { TextBox } from '../shared/TextBox'
 export class Option extends TextBox {
   private mark: Group | null = null
 
-  public showIsCorrect() {
-    this.rect.set({ fill: hexToRGB(COLOR.GREEN, 0.03), stroke: COLOR.GREEN, strokeWidth: 2 })
+  public showIsCorrect(isSelected: boolean = true) {
+    this.rect.set({
+      fill: hexToRGB(COLOR.GREEN, 0.03),
+      stroke: COLOR.GREEN,
+      strokeWidth: 2,
+      ...(!isSelected && { strokeDashArray: [10, 5] })
+    })
     this.showCorrectMark()
   }
 

@@ -54,7 +54,7 @@ export default async function Quiz(): Promise<HTMLElement> {
   if (currentQuizData.type === 'DRAG') {
     const labelCol = currentQuizData.answer.length
     labels = createTextBoxGrid(
-      TextBox,
+      Option,
       Array(labelCol).fill('?'),
       (imagesEndPos ?? questionEndPos) + 24,
       labelCol,
