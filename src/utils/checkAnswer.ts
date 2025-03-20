@@ -29,6 +29,7 @@ export const checkAnswer = (
   })
 
   checkButton.on('mousedown', () => {
+    let isAllCorrect = true
     if (quizData.type !== 'DRAG') {
       if (checkButton.getTextValue() === '채점하기') {
         if (selectedOptions.size === 0) {
@@ -44,6 +45,7 @@ export const checkAnswer = (
         })
 
         if (isAllCorrect) {
+          selectedOptionList.forEach(i => options[i].showIsCorrect())
           showToast(canvas, toast, '정답이에요! 다음으로 넘어가볼까요?')
           checkButton.setGroup({ evented: false })
           nextButton.setGroup({ opacity: 100, visibility: true })
