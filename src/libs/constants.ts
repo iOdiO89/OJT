@@ -27,6 +27,7 @@ export const COLOR = {
   SUPER_LIGHT_GRAY: '#f4f4f5',
   GREEN: '#00C247',
   RED: '#ef4444',
+  LIGHT_RED: '#f7a1a1',
   PURPLE: '#8347FF',
   LIGHT_PURPLE: '#C1A3FF',
   SHADOW: '#181818'
