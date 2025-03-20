@@ -5,6 +5,7 @@ import { COLOR } from '../libs/constants'
 import { showToast } from './showToast'
 import { Option } from '../components/quiz/Option'
 import { QuizImage } from '../components/quiz/QuizImage'
+import { hexToRGB } from './hexToRGB'
 
 export const checkAnswer = (
   canvas: Canvas,
@@ -18,7 +19,7 @@ export const checkAnswer = (
   const selectedOptions = store.get(selectedOptionsAtom)
 
   checkButton.on('mouseover', () => {
-    checkButton.setRect({ fill: COLOR.LIGHT_PURPLE })
+    checkButton.setRect({ fill: hexToRGB(COLOR.PURPLE, 0.8) })
     canvas.renderAll()
   })
 
