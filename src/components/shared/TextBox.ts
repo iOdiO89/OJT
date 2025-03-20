@@ -4,11 +4,11 @@ import { hexToRGB } from '../../utils/hexToRGB'
 import { COLOR } from '../../libs/constants'
 
 export class TextBox {
-  private text: IText
-  private rect: Rect
-  private group: Group
-  private initLeft: number | undefined
-  private initTop: number | undefined
+  protected text: IText
+  protected rect: Rect
+  protected group: Group
+  protected initLeft: number
+  protected initTop: number
 
   constructor(textValue: string, width?: number) {
     this.text = new IText(textValue, {
@@ -43,6 +43,9 @@ export class TextBox {
       hasBorders: false,
       hoverCursor: 'pointer'
     })
+
+    this.initLeft = 0
+    this.initTop = 0
   }
 
   public getTextValue(): string {

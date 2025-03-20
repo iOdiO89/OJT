@@ -4,6 +4,7 @@ import { COLOR } from '../libs/constants'
 import { hexToRGB } from './hexToRGB'
 import { moveSmooth } from './moveSmooth'
 import { getOverlappedSpace } from './getIntersectionArea'
+import { selectedOptionsAtom, store } from '../libs/atoms'
 
 export const handleOptions = (canvas: Canvas, quizType: QUIZ_TYPE, options: TextBox[], labels?: TextBox[]) => {
   if (quizType === 'DRAG' && labels) {
@@ -79,43 +80,46 @@ export const handleOptions = (canvas: Canvas, quizType: QUIZ_TYPE, options: Text
     })
   } else {
     let selectedOption: TextBox | null = null
+    const selectedOptions = store.get(selectedOptionsAtom)
+    selectedOptions.clear()
 
-    options.forEach(option => {
-      let isSelected = false
-
+    options.forEach((option, index) => {
       option.on('mouseover', () => {
-        if (!isSelected) option.setRect({ stroke: COLOR.GREEN, fill: hexToRGB(COLOR.GREEN, 0.01) })
+        if (!selectedOptions.has(index)) option.setRect({ stroke: COLOR.GREEN, fill: hexToRGB(COLOR.GREEN, 0.01) })
 
         canvas.renderAll()
       })
 
       option.on('mouseout', () => {
-        if (!isSelected) {
+        if (!selectedOptions.has(index)) {
           option.setRect({ stroke: COLOR.GRAY, fill: 'white' })
           canvas.renderAll()
         }
       })
 
       option.on('mousedown', () => {
-        if (quizType === 'MULTI') isSelected = !isSelected
-        else if (quizType === 'SINGLE' || quizType === 'MATH') {
-          if (selectedOption && selectedOption !== option) {
-            const prevRect = selectedOption.getRectObject()
-            prevRect.set({ stroke: COLOR.GRAY, fill: 'white' })
-          }
+        if (quizType === 'MULTI') {
+          if (selectedOptions.has(index)) selectedOptions.delete(index)
+          else selectedOptions.add(index)
+        } else if (quizType === 'SINGLE' || quizType === 'MATH') {
+          if (selectedOption && selectedOption !== option)
+            selectedOption.getRectObject().set({ stroke: COLOR.GRAY, fill: 'white' })
+
           if (selectedOption === option) {
-            isSelected = false
+            selectedOptions.clear()
             selectedOption = null
           } else {
-            isSelected = true
+            selectedOptions.add(index)
             selectedOption = option
           }
         }
 
         option.setRect({
-          stroke: isSelected ? COLOR.GREEN : COLOR.GRAY,
-          fill: isSelected ? hexToRGB(COLOR.GREEN, 0.01) : 'white'
+          stroke: selectedOptions.has(index) ? COLOR.GREEN : COLOR.GRAY,
+          fill: selectedOptions.has(index) ? hexToRGB(COLOR.GREEN, 0.01) : 'white'
         })
+
+        store.set(selectedOptionsAtom, selectedOptions)
 
         canvas.renderAll()
       })

@@ -3,9 +3,11 @@ import { COLOR } from '../../libs/constants'
 import { hexToRGB } from '../../utils/hexToRGB'
 
 export class QuizImage {
+  private rect: Rect
   private group: Group
 
-  private constructor(group: Group) {
+  private constructor(rect: Rect, group: Group) {
+    this.rect = rect
     this.group = group
   }
 
@@ -13,10 +15,16 @@ export class QuizImage {
     const image = await FabricImage.fromURL(path, {}, { originX: 'center', originY: 'center' })
     const imageRatio = image.width / image.height
 
-    let scale: number
-    if (imageRatio > 1) scale = (size - padding * 2) / image.width
-    else scale = (size - padding * 2) / image.height
-    image.scale(scale)
+    const maxContentSize = size - padding * 2
+
+    if (image.width > maxContentSize || image.height > maxContentSize) {
+      let scale: number
+      if (imageRatio > 1) scale = maxContentSize / image.width
+      else scale = maxContentSize / image.height
+      image.scale(scale)
+    }
+
+    image.set({ flipX: false, flipY: false, scaleX: Math.abs(image.scaleX ?? 1), scaleY: Math.abs(image.scaleY ?? 1) })
 
     const rect = new Rect({
       width: size,
@@ -38,14 +46,18 @@ export class QuizImage {
       originY: 'top'
     })
 
-    return new QuizImage(group)
+    return new QuizImage(rect, group)
   }
 
   public getGroupObject(): Group {
     return this.group
   }
 
-  public setGroup(properties: Record<string, unknown>): void {
+  public setRect(properties: Record<string, unknown>) {
+    this.rect.set(properties)
+  }
+
+  public setGroup(properties: Record<string, unknown>) {
     this.group.set(properties)
   }
 }
