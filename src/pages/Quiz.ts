@@ -76,9 +76,9 @@ export default async function Quiz(): Promise<HTMLElement> {
     optionStartPos,
     optionCol,
     currentQuizData.type === 'DRAG' ? SIZE.GAP_XS : SIZE.GAP_SM,
-    SIZE.GAP_SM,
+    currentQuizData.type === 'MATH' ? SIZE.GAP_S : SIZE.GAP_SM,
     {},
-    { stroke: COLOR.GRAY, strokeWidth: 2 }
+    { stroke: COLOR.GRAY, strokeWidth: 2, ...(currentQuizData.type === 'MATH' && { width: 62 }) }
   )
   options.forEach(option => canvas.add(option.getGroupObject()))
   const optionCount = options.length
