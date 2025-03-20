@@ -102,11 +102,13 @@ export const handleOptions = (canvas: Canvas, quizType: QUIZ_TYPE, options: Text
           if (selectedOptions.has(index)) selectedOptions.delete(index)
           else selectedOptions.add(index)
         } else if (quizType === 'SINGLE' || quizType === 'MATH') {
-          if (selectedOption && selectedOption !== option)
-            selectedOption.getRectObject().set({ stroke: COLOR.GRAY, fill: 'white' })
-
-          if (selectedOption === option) {
+          if (selectedOption && selectedOption !== option) {
             selectedOptions.clear()
+            selectedOption.getRectObject().set({ stroke: COLOR.GRAY, fill: 'white' })
+          }
+
+          /* 선택지 토글 */
+          if (selectedOption === option) {
             selectedOption = null
           } else {
             selectedOptions.add(index)
