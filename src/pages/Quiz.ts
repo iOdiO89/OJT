@@ -1,6 +1,5 @@
 import { Canvas } from 'fabric'
 import { quizData } from '../libs/dummy'
-import { renderAnswerButton } from '../components/quiz/answerButton'
 import { CANVAS, COLOR, SIZE } from '../libs/constants'
 import { createImages } from '../components/quiz/QuizImages'
 import { canvasAtom, quizAtom, store, tryCountAtom } from '../libs/atoms'

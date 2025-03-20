@@ -16,9 +16,9 @@ export class Option extends TextBox {
     this.showCorrectMark()
   }
 
-  public showIsWrong() {
+  public showIsWrong(showMark: boolean = true) {
     this.rect.set({ fill: hexToRGB(COLOR.RED, 0.03), stroke: COLOR.RED, strokeWidth: 2 })
-    this.showWrongMark()
+    if (showMark) this.showWrongMark()
   }
 
   public showCorrectMark() {
