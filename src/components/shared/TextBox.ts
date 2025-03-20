@@ -12,6 +12,8 @@ export class TextBox {
 
   constructor(textValue: string, width?: number) {
     this.text = new IText(textValue, {
+      originX: 'center',
+      originY: 'center',
       fontSize: 24,
       fill: 'black',
       selectable: false,
@@ -20,6 +22,8 @@ export class TextBox {
 
     const [textWidth, textHeight] = getObjectSize(this.text)
     this.rect = new Rect({
+      originX: 'center',
+      originY: 'center',
       width: width ?? textWidth + 24,
       height: textHeight + 16,
       rx: 8,
@@ -31,11 +35,6 @@ export class TextBox {
         color: hexToRGB(COLOR.SHADOW, 0.03)
       }),
       selectable: false
-    })
-
-    this.text.set({
-      left: (this.rect.width - textWidth) / 2,
-      top: (this.rect.height - textHeight) / 2
     })
 
     this.group = new Group([this.rect, this.text], {
