@@ -36,14 +36,14 @@ export const handleOptions = (canvas: Canvas, quizType: QUIZ_TYPE, options: Text
         }
 
         if (prevOverlappedLabel && prevOverlappedLabel != maxOverlappedLabel) {
-          if (prevOverlappedLabel.getTextValue() === '?')
-            prevOverlappedLabel.setRect({
-              fill: COLOR.SUPER_LIGHT_GRAY
-            })
+          if (prevOverlappedLabel.getTextValue() === '?') prevOverlappedLabel.setRect({ fill: COLOR.SUPER_LIGHT_GRAY })
+          else prevOverlappedLabel.setRect({ fill: hexToRGB(COLOR.GREEN, 0.2) })
         }
 
         if (maxOverlappedLabel) {
-          if (maxOverlappedSpace > 0) maxOverlappedLabel.setRect({ fill: hexToRGB(COLOR.GREEN, 0.2) })
+          if (maxOverlappedSpace > 0 && maxOverlappedLabel.getTextValue() !== '?')
+            maxOverlappedLabel.setRect({ fill: hexToRGB(COLOR.GREEN, 0.3) })
+          else if (maxOverlappedSpace > 0) maxOverlappedLabel.setRect({ fill: hexToRGB(COLOR.GREEN, 0.2) })
           else if (maxOverlappedLabel.getTextValue() === '?')
             maxOverlappedLabel.setRect({ fill: COLOR.SUPER_LIGHT_GRAY })
         }
