@@ -66,7 +66,6 @@ export const handleOptions = (canvas: Canvas, quizType: QUIZ_TYPE, options: Text
           }
 
           maxOverlappedLabel.setText({ text: option.getTextValue() })
-          maxOverlappedLabel.centerText()
 
           option.setText({ fill: COLOR.GRAY })
           option.setGroup({ evented: false })
