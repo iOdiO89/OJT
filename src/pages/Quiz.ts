@@ -12,6 +12,7 @@ import { TextBox } from '../components/shared/TextBox'
 import { Option } from '../components/quiz/Option'
 import { QuizImage } from '../components/quiz/QuizImage'
 import { getObjectSize } from '../utils/getObjectSize'
+import { goToNextPage } from '../utils/navigate'
 
 export default async function Quiz(): Promise<HTMLElement> {
   const queryString = window.location.search
@@ -105,7 +106,13 @@ export default async function Quiz(): Promise<HTMLElement> {
   const toast = new TextBox('')
   toast.setText({ fill: COLOR.PURPLE, fontSize: 20 })
   toast.setRect({ fill: 'white', stroke: COLOR.PURPLE, rx: 24, ry: 24 })
-  toast.setGroup({ originX: 'center', top: checkButtonEndPos + 20, left: 400, opacity: 0, visibility: false })
+  toast.setGroup({
+    originX: 'center',
+    top: checkButtonEndPos + 20,
+    left: CANVAS.WIDTH / 2,
+    opacity: 0,
+    visibility: false
+  })
   canvas.add(toast.getGroupObject())
 
   checkAnswer(
@@ -117,6 +124,7 @@ export default async function Quiz(): Promise<HTMLElement> {
     nextButton,
     currentQuizData.type === 'DRAG' ? labels : undefined
   )
+  goToNextPage(quizNum, nextButton)
 
   return container
 }

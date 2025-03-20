@@ -1,4 +1,4 @@
-import { Group, Rect, FabricImage, Shadow } from 'fabric'
+import { Group, Rect, FabricImage, Shadow, GroupEvents } from 'fabric'
 import { COLOR } from '../../libs/constants'
 import { hexToRGB } from '../../utils/hexToRGB'
 
@@ -43,7 +43,8 @@ export class QuizImage {
 
     const group = new Group([rect, image], {
       originX: 'center',
-      originY: 'top'
+      originY: 'top',
+      selectable: false
     })
 
     return new QuizImage(rect, group)
@@ -59,5 +60,9 @@ export class QuizImage {
 
   public setGroup(properties: Record<string, unknown>) {
     this.group.set(properties)
+  }
+
+  public on(eventName: keyof GroupEvents, handler: (...args: unknown[]) => unknown): void {
+    this.group.on(eventName, handler)
   }
 }
