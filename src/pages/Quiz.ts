@@ -43,14 +43,14 @@ export default async function Quiz(): Promise<HTMLElement> {
   store.set(canvasAtom, canvas)
 
   /* Progress Bar 삽입 */
-  const progessBar = new ProgressBar(quizNum)
-  progessBar.add(canvas, quizNum)
-  canvas.add(progessBar.getGroupObject())
+  const progressBar = new ProgressBar(quizNum)
+  progressBar.add(canvas, quizNum)
+  canvas.add(progressBar.getGroupObject())
 
-  const progessBarEndPos = progessBar.getGroupObject().height
+  const progressBarEndPos = progressBar.getGroupObject().height
 
   /* 문제 제목 삽입 */
-  const title = new Title(`${quizNum}. ${currentQuizData.question}`, progessBarEndPos + 24)
+  const title = new Title(`[${quizNum}번] ${currentQuizData.question}`, progressBarEndPos + 24)
   const titleText = title.getTextObject()
   canvas.add(titleText)
 
