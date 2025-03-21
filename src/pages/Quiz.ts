@@ -13,6 +13,7 @@ import { QuizImage } from '../components/quiz/QuizImage'
 import { goToNextPage } from '../utils/goToNextPage'
 import { ProgressBar } from '../components/quiz/ProgressBar'
 import { handleScreenSize } from '../utils/handleScreenSize'
+import { applyJustifyBetween } from '../utils/applyJustfifyBetween'
 
 export default async function Quiz(): Promise<HTMLElement> {
   /* Query Parameter에서 문제 번호 추출 */
@@ -146,5 +147,22 @@ export default async function Quiz(): Promise<HTMLElement> {
 
   /* 화면 크기가 캔버스 크기보다 작은 경우 오버레이 표시 */
   handleScreenSize(canvas)
+
+  /**
+   * TopObjects: ProgressBar + 제목
+   * MidObjects: Images + Labels + Options
+   * BottomObjects: AnswerButton + NextButton + Toast
+   *
+   * 세 그룹으로 나누어 justify-between 적용
+   * Top, Bottom 객체들은 항상 고정 위치로 두고, 컨텐츠 길이에 따라 Middle 위치만 중앙정렬되게 함
+   */
+  const midObjects = [
+    ...(images?.map(img => img.getGroupObject()) ?? []),
+    ...(labels?.map(lbl => lbl.getGroupObject()) ?? []),
+    ...options.map(opt => opt.getGroupObject())
+  ]
+  const bottomObjects = [checkButton.getGroupObject(), nextButton.getGroupObject(), toast.getGroupObject()]
+  applyJustifyBetween(questionEndPos, midObjects, bottomObjects)
+
   return container
 }

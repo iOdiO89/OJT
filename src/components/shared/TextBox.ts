@@ -1,5 +1,5 @@
 import { Group, GroupEvents, IText, Rect, Shadow } from 'fabric'
-import { getObjectSize } from '../../utils/getObjectSize'
+import { getObjectSize } from '../../utils/handleFabricObject'
 import { hexToRGB } from '../../utils/hexToRGB'
 import { COLOR } from '../../libs/constants'
 

@@ -119,6 +119,11 @@ export const handleOptions = (canvas: Canvas, quizType: QUIZ_TYPE, options: Text
         canvas.renderAll()
       })
 
+      /* moving 전 돌아가야 할 기존 위치 저장 */
+      option.on('mousedown', () => {
+        option.setInitPosition(option.getGroupObject().left, option.getGroupObject().top)
+      })
+
       option.on('mouseup', () => {
         /* moving시 마지막으로 가장 많이 겹쳐있던 label이 현재도 겹쳐있는지 확인 */
         if (maxOverlappedLabel && option.getGroupObject().intersectsWithObject(maxOverlappedLabel.getGroupObject())) {

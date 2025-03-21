@@ -1,5 +1,5 @@
 import { Canvas, util } from 'fabric'
-import { getObjectSize } from './getObjectSize'
+import { getObjectSize } from './handleFabricObject'
 import { CANVAS } from '../libs/constants'
 import { TextBox } from '../components/shared/TextBox'
 
