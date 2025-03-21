@@ -25,8 +25,7 @@ export function handleScreenSize(canvas: Canvas): void {
    */
   function updateDisplay(): void {
     if (overlay) {
-      const canvasHeight = canvas.getHeight()
-      if (window.innerWidth < CANVAS.WIDTH + 40 || window.innerHeight < canvasHeight) {
+      if (window.innerWidth < CANVAS.WIDTH + 20 || window.innerHeight < CANVAS.HEIGHT + 20) {
         canvasEl.style.display = 'none'
         overlay.style.display = 'flex'
       } else {
