@@ -52,10 +52,9 @@ export default async function Quiz(): Promise<HTMLElement> {
 
   /* 문제 제목 삽입 */
   const title = new Title(`[${quizNum}번] ${currentQuizData.question}`, progressBarEndPos + 24)
-  const titleText = title.getTextObject()
-  canvas.add(titleText)
+  canvas.add(title.getTextObject())
 
-  const questionEndPos = titleText.top + titleText.height
+  const questionEndPos = title.getTextObject().top + title.getTextObject().height
 
   /* 이미지 삽입 (이미지가 있는 문제인 경우) */
   let images, imagesEndPos
