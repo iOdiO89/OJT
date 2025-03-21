@@ -4,6 +4,7 @@ import { Title } from '../components/quiz/QuizTitle'
 import { TextBox } from '../components/shared/TextBox'
 import { createReportRow } from '../utils/createReportRow'
 import { getQuizHistory } from '../utils/handleQuizHistory'
+import { goToStartPage } from '../utils/goToStartPage'
 
 export default function Report(): HTMLElement {
   /* 캔버스 삽입 */
@@ -51,11 +52,13 @@ export default function Report(): HTMLElement {
   })
 
   /* 처음으로 돌아가는 버튼 삽입 */
-  const resetButton = new TextBox('처음으로')
-  resetButton.setText({ fill: 'white', fontSize: 20 })
-  resetButton.setRect({ fill: COLOR.PURPLE, rx: 24, ry: 24, width: 180 })
-  resetButton.setGroup({ top: currentTop + 24, left: (CANVAS.WIDTH - resetButton.getGroupObject().width) / 2 })
-  canvas.add(resetButton.getGroupObject())
+  const navigateButton = new TextBox('처음으로')
+  navigateButton.setText({ fill: 'white', fontSize: 20 })
+  navigateButton.setRect({ fill: COLOR.PURPLE, rx: 24, ry: 24, width: 180 })
+  navigateButton.setGroup({ top: currentTop + 24, left: (CANVAS.WIDTH - navigateButton.getGroupObject().width) / 2 })
+  canvas.add(navigateButton.getGroupObject())
+
+  goToStartPage(navigateButton)
 
   canvas.renderAll()
 
