@@ -47,30 +47,23 @@ export const handleOptions = (canvas: Canvas, quizType: QUIZ_TYPE, options: Text
       })
 
       /* 선택지 토글 처리 및 단일/다중 선택 기능 */
-      let selectedOption: TextBox | null = null
       option.on('mousedown', () => {
         if (quizType === 'MULTI') {
           if (selectedOptions.has(index)) selectedOptions.delete(index)
           else selectedOptions.add(index)
         } else if (quizType === 'SINGLE' || quizType === 'MATH') {
-          if (selectedOption && selectedOption !== option) {
+          if (selectedOptions.has(index)) selectedOptions.delete(index)
+          else {
             selectedOptions.clear()
-            selectedOption.getRectObject().set({ stroke: COLOR.GRAY, fill: 'white' })
-          }
-
-          if (selectedOption === option) {
-            selectedOptions.clear()
-            selectedOption = null
-          } else {
             selectedOptions.add(index)
-            selectedOption = option
           }
         }
-
-        option.setRect({
-          stroke: selectedOptions.has(index) ? COLOR.GREEN : COLOR.GRAY,
-          fill: selectedOptions.has(index) ? hexToRGB(COLOR.GREEN, 0.01) : 'white'
-        })
+        options.forEach((option, i) =>
+          option.setRect({
+            stroke: selectedOptions.has(i) ? COLOR.GREEN : COLOR.GRAY,
+            fill: selectedOptions.has(i) ? hexToRGB(COLOR.GREEN, 0.01) : 'white'
+          })
+        )
 
         /* 선택된 옵션 index를 selectedOptionsAtom에 저장 */
         store.set(selectedOptionsAtom, selectedOptions)
