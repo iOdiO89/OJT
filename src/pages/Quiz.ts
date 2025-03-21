@@ -12,6 +12,7 @@ import { Option } from '../components/quiz/Option'
 import { QuizImage } from '../components/quiz/QuizImage'
 import { goToNextPage } from '../utils/goToNextPage'
 import { ProgressBar } from '../components/quiz/ProgressBar'
+import { handleScreenSize } from '../utils/handleScreenSize'
 
 export default async function Quiz(): Promise<HTMLElement> {
   /* Query Parameter에서 문제 번호 추출 */
@@ -36,7 +37,7 @@ export default async function Quiz(): Promise<HTMLElement> {
     defaultCursor: 'default',
     hoverCursor: 'default',
     width: CANVAS.WIDTH,
-    height: CANVAS.HEIGHT
+    height: window.innerHeight - 50
   })
   store.set(canvasAtom, canvas)
 
@@ -143,5 +144,7 @@ export default async function Quiz(): Promise<HTMLElement> {
   /* nextButton event 정의 - 다음 페이지(다음 문제 or 레포트 페이지)로 이동 */
   goToNextPage(quizNum, nextButton)
 
+  /* 화면 크기가 캔버스 크기보다 작은 경우 오버레이 표시 */
+  handleScreenSize(canvas)
   return container
 }
