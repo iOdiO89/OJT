@@ -13,13 +13,14 @@ type QUIZ_TYPE = 'SINGLE' | 'MULTI' | 'DRAG' | 'MATH' /* 퀴즈 유형 정의 */
  * 공통 퀴즈 속성을 정의하는 기본 인터페이스
  */
 interface QuizBase {
+  topic: string /* 문제 주제 */
   question: string /* 문제 텍스트 */
   images?: string[] /* 문제와 함께 표시될 이미지 경로 리스트*/
   options: string[] /* 선택지 배열 */
 }
 
 /**
- * 단답형, 객관식, 수학 문제 유형의 퀴즈 타입
+ * 단일/다중/사칙연산 유형의 퀴즈 타입
  */
 interface QuizA extends QuizBase {
   type: 'SINGLE' | 'MULTI' | 'MATH' /* 퀴즈 유형 */
@@ -27,12 +28,27 @@ interface QuizA extends QuizBase {
 }
 
 /**
- * 드래그 앤 드롭 유형 퀴즈 타입
+ * 드래그 유형의 퀴즈 타입
  */
 interface QuizB extends QuizBase {
   type: 'DRAG' /* 퀴즈 유형 고정: DRAG */
   answer: string[] /* 각 정답 라벨의 정답 값 */
 }
 
-/* 전체 퀴즈 타입 - QuizA 또는 QuizB */
+/**
+ * 전체 퀴즈 타입 - QuizA 또는 QuizB
+ *
+ * @see QuizA: 단일/다중/사칙연산 문제
+ * @see QuizB: 드래그 문제
+ */
 type Quiz = QuizA | QuizB
+
+/**
+ * 각 문제의 풀이 기록을 저장하는 인터페이스
+ */
+interface QuizHistory {
+  topic: string /* 문제 주제 */
+  isAllCorrect: boolean /* 각 문제의 모든 정답이 맞혔는지 여부) */
+  isCorrect: boolean[] /* 각 정답 선택지별로 맞았는지 여부 배열 */
+  answer: string[] /* 정답 리스트 */
+}

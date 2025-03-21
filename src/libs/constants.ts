@@ -1,7 +1,7 @@
 export const PATH = {
   HOME: '/',
   QUIZ: '/quiz',
-  REPORT: '/path',
+  REPORT: '/report',
   NOT_FOUND: '/404'
 }
 
@@ -31,4 +31,14 @@ export const COLOR = {
   PURPLE: '#8347FF',
   LIGHT_PURPLE: '#C1A3FF',
   SHADOW: '#181818'
+}
+
+export const REPORT = {
+  WIDTH: {
+    INDEX: 50,
+    MARK: 50,
+    TOTAL: 750
+  },
+  HEIGHT: 60,
+  COL_GAP: 16
 }

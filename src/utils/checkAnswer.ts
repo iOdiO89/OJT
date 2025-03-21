@@ -1,4 +1,3 @@
-import { Canvas } from 'fabric'
 import { TextBox } from '../components/shared/TextBox'
 import { canvasAtom, quizAtom, selectedOptionsAtom, store, tryCountAtom } from '../libs/atoms'
 import { COLOR } from '../libs/constants'
@@ -6,6 +5,7 @@ import { showToast } from './showToast'
 import { Option } from '../components/quiz/Option'
 import { QuizImage } from '../components/quiz/QuizImage'
 import { hexToRGB } from './hexToRGB'
+import { createQuizHistory, saveQuizHistory } from './handleQuizHistory'
 
 /**
  * 사용자가 선택한 답안을 확인하고, 정오답 여부에 따라 UI와 상태를 업데이트하는 함수
@@ -78,6 +78,9 @@ export const checkAnswer = (
           showToast(canvas, toast, '정답이에요! 다음으로 넘어가볼까요?')
           checkButton.setGroup({ evented: false })
           nextButton.setGroup({ opacity: 100, visibility: true })
+
+          const currentQuizHistory = createQuizHistory(quizData, selectedOptions, options)
+          saveQuizHistory(currentQuizHistory)
         } else {
           /* 틀린 문제가 있거나 선택하지 않은 정답이 있는 경우 */
 
@@ -97,6 +100,9 @@ export const checkAnswer = (
             showToast(canvas, toast, `이번엔 틀렸어요. 다음엔 조금 더 노력해봐요!`)
             checkButton.setGroup({ evented: false })
             nextButton.setGroup({ opacity: 100, visibility: true })
+
+            const currentQuizHistory = createQuizHistory(quizData, selectedOptions, options)
+            saveQuizHistory(currentQuizHistory)
           } else {
             /**
              * < 마지막 시도가 아닌 경우 >
@@ -141,17 +147,21 @@ export const checkAnswer = (
         })
 
         if (isAllCorrect) {
-          /* 모두 정답일 경우 처리 */
+          /* 모두 정답일 경우 */
           labels.forEach(label => label.showIsCorrect())
           showToast(canvas, toast, '정답이에요! 다음으로 넘어가볼까요?')
           checkButton.setGroup({ evented: false })
           nextButton.setGroup({ opacity: 100, visibility: true })
+
+          const currentQuizHistory = createQuizHistory(quizData, selectedOptions, options, labels)
+          saveQuizHistory(currentQuizHistory)
         } else {
           if (store.get(tryCountAtom) === 1) {
             /**
              * < 마지막 시도인 경우 >
              * 정오답 표시
              * 오답인 경우, 정답 text도 함께 표시
+             * sessionStorage에 퀴즈 기록 저장
              */
             labels.forEach((label, index) => {
               if (label.getTextValue() === quizData.answer[index]) label.showIsCorrect()
@@ -173,6 +183,9 @@ export const checkAnswer = (
             showToast(canvas, toast, `이번엔 틀렸어요. 다음엔 조금 더 노력해봐요!`)
             checkButton.setGroup({ evented: false })
             nextButton.setGroup({ opacity: 100, visibility: true })
+
+            const currentQuizHistory = createQuizHistory(quizData, selectedOptions, options, labels)
+            saveQuizHistory(currentQuizHistory)
           } else {
             /**
              * < 마지막 시도가 아닌 경우 >

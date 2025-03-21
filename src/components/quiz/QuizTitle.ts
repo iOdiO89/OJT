@@ -11,7 +11,7 @@ export class Title {
    * @param textValue - 타이틀에 표시될 문자열
    * @param startPos - Title이 배치될 시작 Y 위치 (top)
    */
-  constructor(textValue: string, startPos: number) {
+  constructor(textValue: string, startPos: number = 0) {
     this.text = new IText(textValue, {
       top: startPos,
       fontSize: 24,
