@@ -42,3 +42,9 @@ export const REPORT = {
   HEIGHT: 60,
   COL_GAP: 16
 }
+
+export const DESCRIPTION = [
+  '각 문제는 3번까지 도전할 수 있으며, 총 10문제로 이루어져 있어요.',
+  '단일/다중/사칙연산/드래그 문제가 준비되어 있어요.',
+  '시작하기 버튼을 눌러 문제를 풀어봐요!'
+]
