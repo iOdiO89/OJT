@@ -4,7 +4,7 @@ import { Title } from '../components/quiz/QuizTitle'
 import { TextBox } from '../components/shared/TextBox'
 import { createReportRow } from '../utils/createReportRow'
 import { getQuizHistory } from '../utils/handleQuizHistory'
-import { goToStartPage } from '../utils/goToStartPage'
+import { goToStartPage } from '../utils/handleNavigation'
 
 export default function Report(): HTMLElement {
   /* 캔버스 삽입 */

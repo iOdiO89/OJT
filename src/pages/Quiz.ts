@@ -10,10 +10,10 @@ import { checkAnswer } from '../utils/checkAnswer'
 import { TextBox } from '../components/shared/TextBox'
 import { Option } from '../components/quiz/Option'
 import { QuizImage } from '../components/quiz/QuizImage'
-import { goToNextPage } from '../utils/goToNextPage'
 import { ProgressBar } from '../components/quiz/ProgressBar'
 import { handleScreenSize } from '../utils/handleScreenSize'
 import { applyJustifyBetween } from '../utils/applyJustfifyBetween'
+import { goToNextPage } from '../utils/handleNavigation'
 
 export default async function Quiz(): Promise<HTMLElement> {
   /* Query Parameter에서 문제 번호 추출 */
