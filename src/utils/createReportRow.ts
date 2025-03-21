@@ -66,14 +66,15 @@ export const createReportRow = (index: number, history: QuizHistory, startPos: n
   })
 
   /* 정답 */
-  const answers = history.answer.map((ans, i) => {
-    return new IText(ans, {
-      fontSize: 20,
-      fill: history.isCorrect[i] ? 'black' : COLOR.RED,
-      fontFamily: 'NanumSquareRound',
-      selectable: false
-    })
-  })
+  const answers = history.answer.map(
+    (ans, i) =>
+      new IText(ans, {
+        fontSize: 20,
+        fill: history.isCorrect[i] ? 'black' : COLOR.RED,
+        fontFamily: 'NanumSquareRound',
+        selectable: false
+      })
+  )
 
   /* 정답 위치 조정 */
   let currentLeft = 0

@@ -73,6 +73,7 @@ export const handleOptions = (canvas: Canvas, quizType: QUIZ_TYPE, options: Text
     })
   } else if (quizType === 'DRAG' && labels) {
     /* 각 label에 어떤 option이 매칭됐는지 기록 */
+    // eslint-disable-next-line prefer-const
     let selectedOptions = Array(labels.length).fill(undefined)
 
     options.forEach(option => {

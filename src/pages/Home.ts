@@ -1,5 +1,5 @@
-import { Canvas, IText, Line, Textbox } from 'fabric'
-import { CANVAS, COLOR, DESCRIPTION, REPORT } from '../libs/constants'
+import { Canvas, IText } from 'fabric'
+import { CANVAS, COLOR, DESCRIPTION } from '../libs/constants'
 import { Title } from '../components/quiz/QuizTitle'
 import { TextBox } from '../components/shared/TextBox'
 import { handleScreenSize } from '../utils/handleScreenSize'
