@@ -11,6 +11,7 @@ import { TextBox } from '../components/shared/TextBox'
 import { Option } from '../components/quiz/Option'
 import { QuizImage } from '../components/quiz/QuizImage'
 import { goToNextPage } from '../utils/goToNextPage'
+import { ProgressBar } from '../components/quiz/ProgressBar'
 
 export default async function Quiz(): Promise<HTMLElement> {
   /* Query Parameter에서 문제 번호 추출 */
@@ -39,8 +40,15 @@ export default async function Quiz(): Promise<HTMLElement> {
   })
   store.set(canvasAtom, canvas)
 
+  /* Progress Bar 삽입 */
+  const progessBar = new ProgressBar(quizNum)
+  progessBar.add(canvas, quizNum)
+  canvas.add(progessBar.getGroupObject())
+
+  const progessBarEndPos = progessBar.getGroupObject().height
+
   /* 문제 제목 삽입 */
-  const title = new Title(`${quizNum}. ${currentQuizData.question}`)
+  const title = new Title(`${quizNum}. ${currentQuizData.question}`, progessBarEndPos + 24)
   const titleText = title.getTextObject()
   canvas.add(titleText)
 

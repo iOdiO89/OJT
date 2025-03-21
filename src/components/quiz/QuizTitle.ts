@@ -9,10 +9,11 @@ export class Title {
 
   /**
    * @param textValue - 타이틀에 표시될 문자열
-   * - fontSize 24px
+   * @param startPos - Title이 배치될 시작 Y 위치 (top)
    */
-  constructor(textValue: string) {
+  constructor(textValue: string, startPos: number) {
     this.text = new IText(textValue, {
+      top: startPos,
       fontSize: 24,
       selectable: false,
       fontFamily: 'NanumSquareRound'
