@@ -58,8 +58,10 @@ export const handleOptions = (canvas: Canvas, quizType: QUIZ_TYPE, options: Text
             selectedOption.getRectObject().set({ stroke: COLOR.GRAY, fill: 'white' })
           }
 
-          if (selectedOption === option) selectedOption = null
-          else {
+          if (selectedOption === option) {
+            selectedOptions.clear()
+            selectedOption = null
+          } else {
             selectedOptions.add(index)
             selectedOption = option
           }
