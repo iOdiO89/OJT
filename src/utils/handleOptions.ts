@@ -58,8 +58,10 @@ export const handleOptions = (canvas: Canvas, quizType: QUIZ_TYPE, options: Text
             selectedOption.getRectObject().set({ stroke: COLOR.GRAY, fill: 'white' })
           }
 
-          if (selectedOption === option) selectedOption = null
-          else {
+          if (selectedOption === option) {
+            selectedOptions.clear()
+            selectedOption = null
+          } else {
             selectedOptions.add(index)
             selectedOption = option
           }
@@ -115,6 +117,11 @@ export const handleOptions = (canvas: Canvas, quizType: QUIZ_TYPE, options: Text
 
         prevOverlappedLabel = maxOverlappedLabel
         canvas.renderAll()
+      })
+
+      /* moving 전 돌아가야 할 기존 위치 저장 */
+      option.on('mousedown', () => {
+        option.setInitPosition(option.getGroupObject().left, option.getGroupObject().top)
       })
 
       option.on('mouseup', () => {

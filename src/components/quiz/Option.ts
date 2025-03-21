@@ -56,8 +56,8 @@ export class Option extends TextBox {
     const rectHeight = this.rect.height ?? 0
 
     this.mark = new Group([circle], {
-      left: this.initLeft + rectWidth / 2,
-      top: this.initTop + rectHeight / 2,
+      left: this.group.left + rectWidth / 2,
+      top: this.group.top + rectHeight / 2,
       selectable: false,
       evented: false,
       originX: 'center',
@@ -91,8 +91,8 @@ export class Option extends TextBox {
     const rectHeight = this.rect.height ?? 0
 
     this.mark = new Group([cross], {
-      left: this.initLeft + rectWidth / 2,
-      top: this.initTop + rectHeight / 2,
+      left: this.group.left + rectWidth / 2,
+      top: this.group.top + rectHeight / 2,
       selectable: false,
       evented: false,
       originX: 'center',

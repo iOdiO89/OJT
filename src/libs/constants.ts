@@ -9,7 +9,7 @@ export const QUIZ_COUNT = 10
 
 export const CANVAS = {
   WIDTH: 800,
-  HEIGHT: 600
+  HEIGHT: 750
 }
 
 export const SIZE = {
