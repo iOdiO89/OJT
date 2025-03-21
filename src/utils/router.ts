@@ -2,7 +2,7 @@ import { PATH } from '../libs/constants.ts'
 import { routes } from '../libs/routes.ts'
 
 /**
- * 현재 요청된 URL이 routes 목록에 존재하는지 확인
+ * 현재 요청된 URL이 routes 목록에 존재하는지 확인하는 함수
  *
  * @param requestedUrl - 사용자가 요청한 URL
  * @returns 매칭되는 Route 객체 / 매칭이 없을 경우 false

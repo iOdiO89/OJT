@@ -3,7 +3,7 @@ import { CANVAS, SIZE } from '../libs/constants'
 import { getObjectSize } from './handleFabricObject'
 
 /**
- * 지정한 grid 조건에 맞춰 TextBox 또는 Option Class 객체들을 생성합니다.
+ * 지정한 grid 조건에 맞춰 TextBox 또는 Option Class 객체들을 생성하는 함수
  *
  * 가로 정렬: align-items
  * 세로 정렬: flex-start

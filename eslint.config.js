@@ -16,9 +16,7 @@ export default [
       'object-curly-newline': ['error', { consistent: true }],
       'operator-linebreak': 'off',
       'no-plusplus': 'off',
-      'arrow-body-style': ['error', 'as-needed'],
-      'no-unused-vars': 'off',
-      '@typescript-eslint/no-unused-vars': ['none']
+      'arrow-body-style': ['error', 'as-needed']
     }
   },
   { languageOptions: { globals: globals.browser } },

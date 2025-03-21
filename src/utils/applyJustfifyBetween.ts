@@ -3,7 +3,7 @@ import { CANVAS } from '../libs/constants'
 import { getObjectPos, placeObject } from './handleFabricObject'
 
 /**
- * Top/Mid/Bot 객체그룹에 Justify-Between 적용
+ * Top/Mid/Bot 객체그룹에 Justify-Between 적용하는 함수
  * @see TopObjects는 움직일 필요 없으므로 Object가 아닌 Height값을 인자로 사용!
  *
  * @param topHeight - Top 그룹 Height

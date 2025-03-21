@@ -1,7 +1,7 @@
 export const PATH = {
   HOME: '/',
   QUIZ: '/quiz',
-  REPORT: '/path',
+  REPORT: '/report',
   NOT_FOUND: '/404'
 }
 
@@ -32,3 +32,19 @@ export const COLOR = {
   LIGHT_PURPLE: '#C1A3FF',
   SHADOW: '#181818'
 }
+
+export const REPORT = {
+  WIDTH: {
+    INDEX: 50,
+    MARK: 50,
+    TOTAL: 750
+  },
+  HEIGHT: 60,
+  COL_GAP: 16
+}
+
+export const DESCRIPTION = [
+  '각 문제는 3번까지 도전할 수 있으며, 총 10문제로 이루어져 있어요.',
+  '단일/다중/사칙연산/드래그 문제가 준비되어 있어요.',
+  '시작하기 버튼을 눌러 문제를 풀어봐요!'
+]

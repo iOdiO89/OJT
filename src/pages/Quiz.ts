@@ -1,6 +1,6 @@
 import { Canvas } from 'fabric'
 import { quizData } from '../libs/dummy'
-import { CANVAS, COLOR, SIZE } from '../libs/constants'
+import { CANVAS, COLOR, QUIZ_COUNT, SIZE } from '../libs/constants'
 import { createImages } from '../components/quiz/QuizImages'
 import { canvasAtom, quizAtom, store, tryCountAtom } from '../libs/atoms'
 import { Title } from '../components/quiz/QuizTitle'
@@ -10,10 +10,10 @@ import { checkAnswer } from '../utils/checkAnswer'
 import { TextBox } from '../components/shared/TextBox'
 import { Option } from '../components/quiz/Option'
 import { QuizImage } from '../components/quiz/QuizImage'
-import { goToNextPage } from '../utils/goToNextPage'
 import { ProgressBar } from '../components/quiz/ProgressBar'
 import { handleScreenSize } from '../utils/handleScreenSize'
 import { applyJustifyBetween } from '../utils/applyJustfifyBetween'
+import { goToNextPage } from '../utils/handleNavigation'
 
 export default async function Quiz(): Promise<HTMLElement> {
   /* Query Parameter에서 문제 번호 추출 */
@@ -51,11 +51,10 @@ export default async function Quiz(): Promise<HTMLElement> {
   const progressBarEndPos = progressBar.getGroupObject().height
 
   /* 문제 제목 삽입 */
-  const title = new Title(`[${quizNum}번] ${currentQuizData.question}`, progressBarEndPos + 24)
-  const titleText = title.getTextObject()
-  canvas.add(titleText)
+  const title = new Title(`${currentQuizData.question} (${quizNum} / ${QUIZ_COUNT})`, progressBarEndPos + 24)
+  canvas.add(title.getTextObject())
 
-  const questionEndPos = titleText.top + titleText.height
+  const questionEndPos = title.getTextObject().top + title.getTextObject().height
 
   /* 이미지 삽입 (이미지가 있는 문제인 경우) */
   let images, imagesEndPos
