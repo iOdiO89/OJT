@@ -22,7 +22,8 @@ export class ProgressBar {
     this.fillWidth = ((quizNum - 2 < 0 ? 0 : quizNum - 2) / QUIZ_COUNT) * CANVAS.WIDTH
 
     this.background = new Rect({
-      width: CANVAS.WIDTH,
+      left: 2,
+      width: CANVAS.WIDTH - 4,
       height: 16,
       fill: COLOR.SUPER_LIGHT_GRAY,
       selectable: false,
@@ -31,6 +32,7 @@ export class ProgressBar {
     })
 
     this.fill = new Rect({
+      left: 2,
       width: this.fillWidth,
       height: 16,
       fill: hexToRGB(COLOR.PURPLE),
