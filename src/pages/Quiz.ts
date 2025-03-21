@@ -38,7 +38,8 @@ export default async function Quiz(): Promise<HTMLElement> {
     defaultCursor: 'default',
     hoverCursor: 'default',
     width: CANVAS.WIDTH,
-    height: CANVAS.HEIGHT
+    height: CANVAS.HEIGHT,
+    backgroundColor: 'white'
   })
   store.set(canvasAtom, canvas)
 

@@ -2,15 +2,21 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  background-color: #f9f6ff;
 }
 
 main {
-  min-height: 100dvh;
+  width: 800px;
+  height: 750px;
+  padding: 40px;
+  border-radius: 24px;
+  background-color: white;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
 }
 
 #overlay {
